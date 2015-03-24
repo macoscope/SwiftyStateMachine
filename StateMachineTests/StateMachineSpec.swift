@@ -31,6 +31,26 @@ private enum Number: DebugPrintable {
 
 private enum Operation {
     case Increment, Decrement
+
+    var debugDescription: String {
+        switch self {
+            case .Increment: return "Increment"
+            case .Decrement: return "Decrement"
+        }
+    }
+}
+
+
+extension Number: DOTLabel {
+    var DOTLabel: String {
+        return debugDescription
+    }
+}
+
+extension Operation: DOTLabel {
+    var DOTLabel: String {
+        return debugDescription
+    }
 }
 
 
@@ -134,6 +154,38 @@ class StateMachineSpec: QuickSpec {
 
                 machine.handleEvent(.E)
                 expect(callbackWasCalledCorrectly) == true
+            }
+
+        }
+
+        describe("Graphable State Machine") {
+
+            it("has representation in DOT format") {
+                let structure: GraphableStateMachineStructure<Number, Operation, Void> = GraphableStateMachineStructure(
+                    graphStates: [.One, .Two, .Three],
+                    graphEvents: [.Increment, .Decrement],
+                    graphSubject: (),
+                    initialState: .One,
+                    transitionLogic: { (state, event, _, _) in
+                        switch state {
+                            case .One: switch event {
+                                case .Decrement: return nil
+                                case .Increment: return (.Two, nil)
+                            }
+
+                            case .Two: switch event {
+                                case .Decrement: return (.One, nil)
+                                case .Increment: return (.Three, nil)
+                            }
+
+                            case .Three: switch event {
+                                case .Decrement: return (.Two, nil)
+                                case .Increment: return nil
+                            }
+                        }
+                    })
+
+                expect(structure.DOTDigraph) == "digraph {\n    graph [rankdir=LR]\n\n    0 [label=\"\", shape=plaintext]\n    0 -> 1 [label=\"START\"]\n\n    1 [label=\"One\"]\n    2 [label=\"Two\"]\n    3 [label=\"Three\"]\n\n    1 -> 2 [label=\"Increment\"]\n    2 -> 3 [label=\"Increment\"]\n    2 -> 1 [label=\"Decrement\"]\n    3 -> 2 [label=\"Decrement\"]\n}"
             }
 
         }

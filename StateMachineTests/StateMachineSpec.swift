@@ -16,6 +16,7 @@ private struct NumberKeeper {
     var n: Int
 }
 
+
 private enum Number: DebugPrintable {
     case One, Two, Three
 
@@ -30,6 +31,26 @@ private enum Number: DebugPrintable {
 
 private enum Operation {
     case Increment, Decrement
+}
+
+
+private enum SimpleState { case S1, S2 }
+private enum SimpleEvent { case E }
+
+private func createSimpleMachine(forward: (() -> ())? = nil, backward: (() -> ())? = nil) -> StateMachine<SimpleState, SimpleEvent, Void> {
+    let structure = StateMachineStructure<SimpleState, SimpleEvent, Void>(initialState: .S1) { (state, event, _, _) in
+        switch state {
+            case .S1: switch event {
+                case .E: return (.S2, forward)
+            }
+
+            case .S2: switch event {
+                case .E: return (.S1, backward)
+            }
+        }
+    }
+
+    return structure.stateMachineWithSubject(())
 }
 
 
@@ -74,25 +95,11 @@ class StateMachineSpec: QuickSpec {
             }
 
             it("doesn't have to be associated with a subject") {
-                enum State { case S1, S2 }
-                enum Event { case E }
+                let machine = createSimpleMachine()
 
-                let structure = StateMachineStructure<State, Event, Void>(initialState: .S1) { (state, event, _, _) in
-                    switch state {
-                        case .S1: switch event {
-                            case .E: return (.S2, nil)
-                        }
-
-                        case .S2: switch event {
-                            case .E: return (.S1, nil)
-                        }
-                    }
-                }
-                let machine = structure.stateMachineWithSubject(())
-
-                expect(machine.state) == State.S1
+                expect(machine.state) == SimpleState.S1
                 machine.handleEvent(.E)
-                expect(machine.state) == State.S2
+                expect(machine.state) == SimpleState.S2
             }
 
             it("changes state on correct event") {

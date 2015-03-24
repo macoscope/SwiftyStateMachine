@@ -36,24 +36,29 @@ private enum Operation {
 class StateMachineSpec: QuickSpec {
     override func spec() {
         describe("State Machine") {
+            var keeper: NumberKeeper!
             var keeperMachine: StateMachine<Number, Operation, NumberKeeper>!
 
             beforeEach {
-                var keeper = NumberKeeper(n: 1)
+                keeper = NumberKeeper(n: 1)
+
                 let structure: StateMachineStructure<Number, Operation, NumberKeeper> = StateMachineStructure(initialState: .One) { (state, event, _, _) in
+                    let decrement = { keeper.n -= 1 }
+                    let increment = { keeper.n += 1 }
+
                     switch state {
                         case .One: switch event {
                             case .Decrement: return nil
-                            case .Increment: return (.Two, {})
+                            case .Increment: return (.Two, increment)
                         }
 
                         case .Two: switch event {
-                            case .Decrement: return (.One, {})
-                            case .Increment: return (.Three, {})
+                            case .Decrement: return (.One, decrement)
+                            case .Increment: return (.Three, increment)
                         }
 
                         case .Three: switch event {
-                            case .Decrement: return (.Two, {})
+                            case .Decrement: return (.Two, decrement)
                             case .Increment: return nil
                         }
                     }
@@ -63,7 +68,9 @@ class StateMachineSpec: QuickSpec {
             }
 
             it("can be associated with a subject") {
-                fail()
+                expect(keeper.n) == 1
+                keeperMachine.handleEvent(.Increment)
+                expect(keeper.n) == 2
             }
 
             it("doesn't have to be associated with a subject") {

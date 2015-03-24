@@ -115,7 +115,13 @@ class StateMachineSpec: QuickSpec {
             }
 
             it("executes transition block on transition") {
-                fail()
+                var didExecuteBlock = false
+
+                let machine = createSimpleMachine(forward: { didExecuteBlock = true })
+                expect(didExecuteBlock) == false
+
+                machine.handleEvent(.E)
+                expect(didExecuteBlock) == true
             }
 
         }

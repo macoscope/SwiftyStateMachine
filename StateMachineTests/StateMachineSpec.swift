@@ -74,7 +74,25 @@ class StateMachineSpec: QuickSpec {
             }
 
             it("doesn't have to be associated with a subject") {
-                fail()
+                enum State { case S1, S2 }
+                enum Event { case E }
+
+                let structure = StateMachineStructure<State, Event, Void>(initialState: .S1) { (state, event, _, _) in
+                    switch state {
+                        case .S1: switch event {
+                            case .E: return (.S2, {})
+                        }
+
+                        case .S2: switch event {
+                            case .E: return (.S1, {})
+                        }
+                    }
+                }
+                let machine = structure.stateMachineWithSubject(nil)
+
+                expect(machine.state) == State.S1
+                machine.handleEvent(.E)
+                expect(machine.state) == State.S2
             }
 
             it("changes state on correct event") {

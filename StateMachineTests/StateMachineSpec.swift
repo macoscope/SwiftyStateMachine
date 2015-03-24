@@ -14,8 +14,24 @@ class StateMachineSpec: QuickSpec {
     override func spec() {
         describe("State Machine") {
 
-            it("has a failing test") {
-                expect("foo") == "bar"
+            it("can be associated with a subject") {
+                fail()
+            }
+
+            it("doesn't have to be associated with a subject") {
+                fail()
+            }
+
+            it("changes state on correct event") {
+                fail()
+            }
+
+            it("doesn't change state on ignored event") {
+                fail()
+            }
+
+            it("executes transition block on transition") {
+                fail()
             }
 
         }

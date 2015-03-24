@@ -14,6 +14,7 @@
 		CB4D56AC1AC169A3006715E8 /* StateMachineSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4D56AB1AC169A3006715E8 /* StateMachineSpec.swift */; };
 		CB4D56BD1AC17731006715E8 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D56BB1AC17731006715E8 /* Nimble.framework */; };
 		CB4D56BE1AC17731006715E8 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D56BC1AC17731006715E8 /* Quick.framework */; };
+		CB7159F11AC1B07E0085C9AE /* StateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7159F01AC1B07E0085C9AE /* StateMachine.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		CB4D56AB1AC169A3006715E8 /* StateMachineSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateMachineSpec.swift; sourceTree = "<group>"; };
 		CB4D56BB1AC17731006715E8 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Nimble.framework; sourceTree = "<group>"; };
 		CB4D56BC1AC17731006715E8 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quick.framework; sourceTree = "<group>"; };
+		CB7159F01AC1B07E0085C9AE /* StateMachine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateMachine.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				CB4D569E1AC169A3006715E8 /* StateMachine.h */,
+				CB7159F01AC1B07E0085C9AE /* StateMachine.swift */,
 				CB4D569C1AC169A3006715E8 /* Supporting Files */,
 			);
 			path = StateMachine;
@@ -252,6 +255,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB7159F11AC1B07E0085C9AE /* StateMachine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,6 +370,7 @@
 		CB4D56B01AC169A3006715E8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -375,12 +380,14 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		CB4D56B11AC169A3006715E8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;

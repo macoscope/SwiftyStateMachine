@@ -23,6 +23,7 @@ public struct StateMachineStructure<S, E, T> {
 
 public class StateMachine<S, E, T> {
     public var state: S
+    public var didTransitionCallback: ((S, E, S) -> ())?
 
     private let structure: StateMachineStructure<S, E, T>
     private let subject: T
@@ -35,8 +36,10 @@ public class StateMachine<S, E, T> {
 
     public func handleEvent(event: E) {
         if let (newState, transition) = structure.transitionLogic(state, event, subject, self) {
+            let oldState = state
             state = newState
             transition?()
+            didTransitionCallback?(oldState, event, newState)
         }
     }
 }

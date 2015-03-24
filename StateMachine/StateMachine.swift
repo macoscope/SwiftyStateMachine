@@ -10,6 +10,11 @@ public struct StateMachineStructure<S, E, T> {
     public let initialState: S
     private let transitionLogic: (S, E, T?, StateMachine<S, E, T>) -> (S, () -> ())?
 
+    public init(initialState: S, transitionLogic: (S, E, T?, StateMachine<S, E, T>) -> (S, () -> ())?) {
+        self.initialState = initialState
+        self.transitionLogic = transitionLogic
+    }
+
     public func stateMachineWithSubject(subject: T?) -> StateMachine<S, E, T> {
         return StateMachine(structure: self, subject: subject)
     }

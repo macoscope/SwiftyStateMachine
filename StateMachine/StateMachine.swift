@@ -34,5 +34,9 @@ public class StateMachine<S, E, T> {
     }
 
     public func handleEvent(event: E) {
+        if let (newState, transition) = structure.transitionLogic(state, event, subject, self) {
+            state = newState
+            transition()
+        }
     }
 }

@@ -80,11 +80,11 @@ class StateMachineSpec: QuickSpec {
                 let structure = StateMachineStructure<State, Event, Void>(initialState: .S1) { (state, event, _, _) in
                     switch state {
                         case .S1: switch event {
-                            case .E: return (.S2, {})
+                            case .E: return (.S2, nil)
                         }
 
                         case .S2: switch event {
-                            case .E: return (.S1, {})
+                            case .E: return (.S1, nil)
                         }
                     }
                 }

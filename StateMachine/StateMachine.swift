@@ -8,9 +8,9 @@
 
 public struct StateMachineStructure<S, E, T> {
     public let initialState: S
-    private let transitionLogic: (S, E, T?, StateMachine<S, E, T>) -> (S, () -> ())?
+    private let transitionLogic: (S, E, T?, StateMachine<S, E, T>) -> (S, (() -> ())?)?
 
-    public init(initialState: S, transitionLogic: (S, E, T?, StateMachine<S, E, T>) -> (S, () -> ())?) {
+    public init(initialState: S, transitionLogic: (S, E, T?, StateMachine<S, E, T>) -> (S, (() -> ())?)?) {
         self.initialState = initialState
         self.transitionLogic = transitionLogic
     }
@@ -36,7 +36,7 @@ public class StateMachine<S, E, T> {
     public func handleEvent(event: E) {
         if let (newState, transition) = structure.transitionLogic(state, event, subject, self) {
             state = newState
-            transition()
+            transition?()
         }
     }
 }

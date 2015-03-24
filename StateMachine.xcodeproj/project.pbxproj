@@ -7,9 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CB2831871AC178D70010AD2A /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CB4D56BB1AC17731006715E8 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CB2831881AC178DB0010AD2A /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CB4D56BC1AC17731006715E8 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CB4D569F1AC169A3006715E8 /* StateMachine.h in Headers */ = {isa = PBXBuildFile; fileRef = CB4D569E1AC169A3006715E8 /* StateMachine.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CB4D56A51AC169A3006715E8 /* StateMachine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D56991AC169A3006715E8 /* StateMachine.framework */; };
-		CB4D56AC1AC169A3006715E8 /* StateMachineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4D56AB1AC169A3006715E8 /* StateMachineTests.swift */; };
+		CB4D56AC1AC169A3006715E8 /* StateMachineSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4D56AB1AC169A3006715E8 /* StateMachineSpec.swift */; };
+		CB4D56BD1AC17731006715E8 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D56BB1AC17731006715E8 /* Nimble.framework */; };
+		CB4D56BE1AC17731006715E8 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D56BC1AC17731006715E8 /* Quick.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -22,13 +26,29 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		CB2831861AC178BE0010AD2A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				CB2831881AC178DB0010AD2A /* Quick.framework in CopyFiles */,
+				CB2831871AC178D70010AD2A /* Nimble.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		CB4D56991AC169A3006715E8 /* StateMachine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StateMachine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB4D569D1AC169A3006715E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CB4D569E1AC169A3006715E8 /* StateMachine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StateMachine.h; sourceTree = "<group>"; };
 		CB4D56A41AC169A3006715E8 /* StateMachineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StateMachineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB4D56AA1AC169A3006715E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CB4D56AB1AC169A3006715E8 /* StateMachineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateMachineTests.swift; sourceTree = "<group>"; };
+		CB4D56AB1AC169A3006715E8 /* StateMachineSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateMachineSpec.swift; sourceTree = "<group>"; };
+		CB4D56BB1AC17731006715E8 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Nimble.framework; sourceTree = "<group>"; };
+		CB4D56BC1AC17731006715E8 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quick.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +64,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB4D56A51AC169A3006715E8 /* StateMachine.framework in Frameworks */,
+				CB4D56BD1AC17731006715E8 /* Nimble.framework in Frameworks */,
+				CB4D56BE1AC17731006715E8 /* Quick.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,6 +77,7 @@
 			children = (
 				CB4D569B1AC169A3006715E8 /* StateMachine */,
 				CB4D56A81AC169A3006715E8 /* StateMachineTests */,
+				CB4D56B51AC17640006715E8 /* Carthage Frameworks */,
 				CB4D569A1AC169A3006715E8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -88,7 +111,7 @@
 		CB4D56A81AC169A3006715E8 /* StateMachineTests */ = {
 			isa = PBXGroup;
 			children = (
-				CB4D56AB1AC169A3006715E8 /* StateMachineTests.swift */,
+				CB4D56AB1AC169A3006715E8 /* StateMachineSpec.swift */,
 				CB4D56A91AC169A3006715E8 /* Supporting Files */,
 			);
 			path = StateMachineTests;
@@ -101,6 +124,25 @@
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
+		};
+		CB4D56B51AC17640006715E8 /* Carthage Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CB4D56BA1AC17731006715E8 /* iOS */,
+			);
+			name = "Carthage Frameworks";
+			path = StateMachine;
+			sourceTree = "<group>";
+		};
+		CB4D56BA1AC17731006715E8 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				CB4D56BB1AC17731006715E8 /* Nimble.framework */,
+				CB4D56BC1AC17731006715E8 /* Quick.framework */,
+			);
+			name = iOS;
+			path = Carthage/Build/iOS;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -141,6 +183,7 @@
 				CB4D56A01AC169A3006715E8 /* Sources */,
 				CB4D56A11AC169A3006715E8 /* Frameworks */,
 				CB4D56A21AC169A3006715E8 /* Resources */,
+				CB2831861AC178BE0010AD2A /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -216,7 +259,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CB4D56AC1AC169A3006715E8 /* StateMachineTests.swift in Sources */,
+				CB4D56AC1AC169A3006715E8 /* StateMachineSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,6 +399,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -373,6 +417,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = StateMachineTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -399,6 +444,7 @@
 				CB4D56B11AC169A3006715E8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CB4D56B21AC169A3006715E8 /* Build configuration list for PBXNativeTarget "StateMachineTests" */ = {
 			isa = XCConfigurationList;
@@ -407,6 +453,7 @@
 				CB4D56B41AC169A3006715E8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

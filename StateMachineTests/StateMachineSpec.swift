@@ -124,6 +124,18 @@ class StateMachineSpec: QuickSpec {
                 expect(didExecuteBlock) == true
             }
 
+            it("can have transition callback") {
+                let machine = createSimpleMachine()
+
+                var callbackWasCalledCorrectly = false
+                machine.didTransitionCallback = { (oldState, event, newState) in
+                    callbackWasCalledCorrectly = oldState == .S1 && event == .E && newState == .S2
+                }
+
+                machine.handleEvent(.E)
+                expect(callbackWasCalledCorrectly) == true
+            }
+
         }
     }
 }

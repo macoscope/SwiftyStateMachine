@@ -88,7 +88,7 @@ class StateMachineSpec: QuickSpec {
                         }
                     }
                 }
-                let machine = structure.stateMachineWithSubject(nil)
+                let machine = structure.stateMachineWithSubject(())
 
                 expect(machine.state) == State.S1
                 machine.handleEvent(.E)

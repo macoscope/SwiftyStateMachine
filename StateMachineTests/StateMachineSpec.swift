@@ -84,8 +84,8 @@ class StateMachineSpec: QuickSpec {
                 keeper = NumberKeeper(n: 1)
 
                 let structure: StateMachineStructure<Number, Operation, NumberKeeper> = StateMachineStructure(initialState: .One) { (state, event) in
-                    let decrement: (NumberKeeper, (Operation) -> ()) -> () = { _ in keeper.n -= 1 }
-                    let increment: (NumberKeeper, (Operation) -> ()) -> () = { _ in keeper.n += 1 }
+                    let decrement: NumberKeeper -> () = { _ in keeper.n -= 1 }
+                    let increment: NumberKeeper -> () = { _ in keeper.n += 1 }
 
                     switch state {
                         case .One: switch event {

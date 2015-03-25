@@ -17,7 +17,7 @@ public protocol StateMachineStructureType {
     typealias Subject
 
     var initialState: State { get }
-    var transitionLogic: (State, Event) -> (State, ((Subject, Event -> ()) -> ())?)? { get }
+    var transitionLogic: (State, Event) -> (State, (Subject -> ())?)? { get }
 }
 
 
@@ -27,9 +27,9 @@ public struct StateMachineStructure<A, B, C>: StateMachineStructureType {
     typealias Subject = C
 
     public let initialState: State
-    public let transitionLogic: (State, Event) -> (State, ((Subject, Event -> ()) -> ())?)?
+    public let transitionLogic: (State, Event) -> (State, (Subject -> ())?)?
 
-    public init(initialState: State, transitionLogic: (State, Event) -> (State, ((Subject, Event -> ()) -> ())?)?) {
+    public init(initialState: State, transitionLogic: (State, Event) -> (State, (Subject -> ())?)?) {
         self.initialState = initialState
         self.transitionLogic = transitionLogic
     }
@@ -42,16 +42,16 @@ public struct GraphableStateMachineStructure<A: DOTLabel, B: DOTLabel, C>: State
     typealias Subject = C
 
     public let initialState: State
-    public let transitionLogic: (State, Event) -> (State, ((Subject, Event -> ()) -> ())?)?
+    public let transitionLogic: (State, Event) -> (State, (Subject -> ())?)?
     public let DOTDigraph: String
 
-    public init(graphStates: [State], graphEvents: [Event], initialState: State, transitionLogic: (State, Event) -> (State, ((Subject, Event -> ()) -> ())?)?) {
+    public init(graphStates: [State], graphEvents: [Event], initialState: State, transitionLogic: (State, Event) -> (State, (Subject -> ())?)?) {
         self.initialState = initialState
         self.transitionLogic = transitionLogic
         self.DOTDigraph = GraphableStateMachineStructure.DOTDigraphGivenTransitionLogic(transitionLogic, initialState: initialState, states: graphStates, events: graphEvents)
     }
 
-    private static func DOTDigraphGivenTransitionLogic(transitionLogic: (State, Event) -> (State, ((Subject, Event -> ()) -> ())?)?, initialState: State, states: [State], events: [Event]) -> String {
+    private static func DOTDigraphGivenTransitionLogic(transitionLogic: (State, Event) -> (State, (Subject -> ())?)?, initialState: State, states: [State], events: [Event]) -> String {
         let stateIndexesByLabel: [String: Int] = {
             var d: [String: Int] = [:]
 
@@ -106,7 +106,7 @@ public struct StateMachine<T: StateMachineStructureType> {
         if let (newState, transition) = structure.transitionLogic(state, event) {
             let oldState = state
             state = newState
-            transition?(subject, handleEvent)
+            transition?(subject)
             didTransitionCallback?(oldState, event, newState)
         }
     }

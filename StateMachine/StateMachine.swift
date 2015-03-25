@@ -52,21 +52,19 @@ public struct GraphableStateMachineStructure<A: DOTLabel, B: DOTLabel, C>: State
     }
 
     private static func DOTDigraphGivenTransitionLogic(transitionLogic: (State, Event) -> (State, (Subject -> ())?)?, initialState: State, states: [State], events: [Event]) -> String {
-        let stateIndexesByLabel: [String: Int] = {
-            var d: [String: Int] = [:]
+        var stateIndexesByLabel: [String: Int] = [:]
+        for (i, state) in enumerate(states) {
+            stateIndexesByLabel[label(state)] = i + 1
+        }
 
-            for (i, state) in enumerate(states) {
-                d[state.DOTLabel] = i + 1
-            }
+        func index(state: State) -> Int {
+            return stateIndexesByLabel[label(state)]!
+        }
 
-            return d
-        }()
-
-        var digraph = "digraph {\n    graph [rankdir=LR]\n\n    0 [label=\"\", shape=plaintext]\n    0 -> \(stateIndexesByLabel[initialState.DOTLabel]!) [label=\"START\"]\n\n"
+        var digraph = "digraph {\n    graph [rankdir=LR]\n\n    0 [label=\"\", shape=plaintext]\n    0 -> \(index(initialState)) [label=\"START\"]\n\n"
 
         for state in states {
-            let label = state.DOTLabel
-            digraph += "    \(stateIndexesByLabel[label]!) [label=\"\(label)\"]\n"
+            digraph += "    \(index(state)) [label=\"\(label(state))\"]\n"
         }
 
         digraph += "\n"
@@ -74,10 +72,7 @@ public struct GraphableStateMachineStructure<A: DOTLabel, B: DOTLabel, C>: State
         for fromState in states {
             for event in events {
                 if let (toState, _) = transitionLogic(fromState, event) {
-                    let fromIndex = stateIndexesByLabel[fromState.DOTLabel]!
-                    let toIndex = stateIndexesByLabel[toState.DOTLabel]!
-
-                    digraph += "    \(fromIndex) -> \(toIndex) [label=\"\(event.DOTLabel)\"]\n"
+                    digraph += "    \(index(fromState)) -> \(index(toState)) [label=\"\(label(event))\"]\n"
                 }
             }
         }
@@ -110,4 +105,10 @@ public struct StateMachine<T: StateMachineStructureType> {
             didTransitionCallback?(oldState, event, newState)
         }
     }
+}
+
+
+/// Helper function used when generating DOT digraph strings.
+private func label<T: DOTLabel>(x: T) -> String {
+    return x.DOTLabel
 }

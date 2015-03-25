@@ -214,6 +214,33 @@ class StateMachineSpec: QuickSpec {
                 expect(structure.DOTDigraph) == "digraph {\n    graph [rankdir=LR]\n\n    0 [label=\"\", shape=plaintext]\n    0 -> 2 [label=\"START\"]\n\n    1 [label=\"Two\"]\n    2 [label=\"One\"]\n    3 [label=\"Three\"]\n\n    1 -> 3 [label=\"Increment\"]\n    1 -> 2 [label=\"Decrement\"]\n    2 -> 1 [label=\"Increment\"]\n    3 -> 1 [label=\"Decrement\"]\n}"
             }
 
+            it("escapes doubles quotes in labels") {
+                enum State: DOTLabel {
+                    case S
+
+                    var DOTLabel: String {
+                        return "An \"awesome\" state"
+                    }
+                }
+
+                enum Event: DOTLabel {
+                    case E
+
+                    var DOTLabel: String {
+                        return "An \"awesome\" event"
+                    }
+                }
+
+                let structure = GraphableStateMachineStructure<State, Event, Void>(
+                    graphStates: [.S],
+                    graphEvents: [.E],
+                    initialState: .S,
+                    transitionLogic: { _ in (.S, nil) }
+                )
+
+                expect(structure.DOTDigraph) == "digraph {\n    graph [rankdir=LR]\n\n    0 [label=\"\", shape=plaintext]\n    0 -> 1 [label=\"START\"]\n\n    1 [label=\"An \\\"awesome\\\" state\"]\n\n    1 -> 1 [label=\"An \\\"awesome\\\" event\"]\n}"
+            }
+
         }
     }
 }

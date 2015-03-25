@@ -110,5 +110,5 @@ public struct StateMachine<T: StateMachineStructureType> {
 
 /// Helper function used when generating DOT digraph strings.
 private func label<T: DOTLabel>(x: T) -> String {
-    return x.DOTLabel
+    return x.DOTLabel.stringByReplacingOccurrencesOfString("\"", withString: "\\\"", options: .LiteralSearch, range: nil)
 }

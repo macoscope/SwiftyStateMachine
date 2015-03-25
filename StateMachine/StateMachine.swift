@@ -48,19 +48,25 @@ public struct GraphableStateMachineStructure<A: DOTLabel, B: DOTLabel, C>: State
     public init(graphStates: [State], graphEvents: [Event], initialState: State, transitionLogic: (State, Event) -> (State, ((Subject, Event -> ()) -> ())?)?) {
         self.initialState = initialState
         self.transitionLogic = transitionLogic
-        self.DOTDigraph = GraphableStateMachineStructure.DOTDigraphGivenTransitionLogic(transitionLogic, states: graphStates, events: graphEvents)
+        self.DOTDigraph = GraphableStateMachineStructure.DOTDigraphGivenTransitionLogic(transitionLogic, initialState: initialState, states: graphStates, events: graphEvents)
     }
 
-    private static func DOTDigraphGivenTransitionLogic(transitionLogic: (State, Event) -> (State, ((Subject, Event -> ()) -> ())?)?, states: [State], events: [Event]) -> String {
-        var stateIndexesByLabel: [String: Int] = [:]
-        var digraph = "digraph {\n    graph [rankdir=LR]\n\n    0 [label=\"\", shape=plaintext]\n    0 -> 1 [label=\"START\"]\n\n"
+    private static func DOTDigraphGivenTransitionLogic(transitionLogic: (State, Event) -> (State, ((Subject, Event -> ()) -> ())?)?, initialState: State, states: [State], events: [Event]) -> String {
+        let stateIndexesByLabel: [String: Int] = {
+            var d: [String: Int] = [:]
 
-        for (i, state) in enumerate(states) {
-            let index = i + 1
+            for (i, state) in enumerate(states) {
+                d[state.DOTLabel] = i + 1
+            }
+
+            return d
+        }()
+
+        var digraph = "digraph {\n    graph [rankdir=LR]\n\n    0 [label=\"\", shape=plaintext]\n    0 -> \(stateIndexesByLabel[initialState.DOTLabel]!) [label=\"START\"]\n\n"
+
+        for state in states {
             let label = state.DOTLabel
-            stateIndexesByLabel[label] = index
-
-            digraph += "    \(index) [label=\"\(label)\"]\n"
+            digraph += "    \(stateIndexesByLabel[label]!) [label=\"\(label)\"]\n"
         }
 
         digraph += "\n"

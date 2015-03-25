@@ -187,6 +187,33 @@ class StateMachineSpec: QuickSpec {
                 expect(structure.DOTDigraph) == "digraph {\n    graph [rankdir=LR]\n\n    0 [label=\"\", shape=plaintext]\n    0 -> 1 [label=\"START\"]\n\n    1 [label=\"One\"]\n    2 [label=\"Two\"]\n    3 [label=\"Three\"]\n\n    1 -> 2 [label=\"Increment\"]\n    2 -> 3 [label=\"Increment\"]\n    2 -> 1 [label=\"Decrement\"]\n    3 -> 2 [label=\"Decrement\"]\n}"
             }
 
+            it("has correct initial state regardless of first state in an array") {
+                let structure: GraphableStateMachineStructure<Number, Operation, Void> = GraphableStateMachineStructure(
+                    graphStates: [.Two, .One, .Three],
+                    graphEvents: [.Increment, .Decrement],
+                    initialState: .One,
+                    transitionLogic: { (state, event) in
+                        switch state {
+                            case .One: switch event {
+                                case .Decrement: return nil
+                                case .Increment: return (.Two, nil)
+                            }
+
+                            case .Two: switch event {
+                                case .Decrement: return (.One, nil)
+                                case .Increment: return (.Three, nil)
+                            }
+
+                            case .Three: switch event {
+                                case .Decrement: return (.Two, nil)
+                                case .Increment: return nil
+                            }
+                        }
+                    })
+
+                expect(structure.DOTDigraph) == "digraph {\n    graph [rankdir=LR]\n\n    0 [label=\"\", shape=plaintext]\n    0 -> 2 [label=\"START\"]\n\n    1 [label=\"Two\"]\n    2 [label=\"One\"]\n    3 [label=\"Three\"]\n\n    1 -> 3 [label=\"Increment\"]\n    1 -> 2 [label=\"Decrement\"]\n    2 -> 1 [label=\"Increment\"]\n    3 -> 1 [label=\"Decrement\"]\n}"
+            }
+
         }
     }
 }

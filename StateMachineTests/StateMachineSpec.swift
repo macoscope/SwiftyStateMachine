@@ -57,8 +57,8 @@ extension Operation: DOTLabel {
 private enum SimpleState { case S1, S2 }
 private enum SimpleEvent { case E }
 
-private func createSimpleMachine(forward: (() -> ())? = nil, backward: (() -> ())? = nil) -> StateMachine<StateMachineStructure<SimpleState, SimpleEvent, Void>> {
-    let structure = StateMachineStructure<SimpleState, SimpleEvent, Void>(initialState: .S1) { (state, event) in
+private func createSimpleMachine(forward: (() -> ())? = nil, backward: (() -> ())? = nil) -> StateMachine<StateMachineSchema<SimpleState, SimpleEvent, Void>> {
+    let schema = StateMachineSchema<SimpleState, SimpleEvent, Void>(initialState: .S1) { (state, event) in
         switch state {
             case .S1: switch event {
                 case .E: return (.S2, { _ in forward?() })
@@ -70,7 +70,7 @@ private func createSimpleMachine(forward: (() -> ())? = nil, backward: (() -> ()
         }
     }
 
-    return StateMachine(structure: structure, subject: ())
+    return StateMachine(schema: schema, subject: ())
 }
 
 
@@ -78,12 +78,12 @@ class StateMachineSpec: QuickSpec {
     override func spec() {
         describe("State Machine") {
             var keeper: NumberKeeper!
-            var keeperMachine: StateMachine<StateMachineStructure<Number, Operation, NumberKeeper>>!
+            var keeperMachine: StateMachine<StateMachineSchema<Number, Operation, NumberKeeper>>!
 
             beforeEach {
                 keeper = NumberKeeper(n: 1)
 
-                let structure: StateMachineStructure<Number, Operation, NumberKeeper> = StateMachineStructure(initialState: .One) { (state, event) in
+                let schema: StateMachineSchema<Number, Operation, NumberKeeper> = StateMachineSchema(initialState: .One) { (state, event) in
                     let decrement: NumberKeeper -> () = { _ in keeper.n -= 1 }
                     let increment: NumberKeeper -> () = { _ in keeper.n += 1 }
 
@@ -105,7 +105,7 @@ class StateMachineSpec: QuickSpec {
                     }
                 }
 
-                keeperMachine = StateMachine(structure: structure, subject: keeper)
+                keeperMachine = StateMachine(schema: schema, subject: keeper)
             }
 
             it("can be associated with a subject") {
@@ -161,7 +161,7 @@ class StateMachineSpec: QuickSpec {
         describe("Graphable State Machine") {
 
             it("has representation in DOT format") {
-                let structure: GraphableStateMachineStructure<Number, Operation, Void> = GraphableStateMachineStructure(
+                let schema: GraphableStateMachineSchema<Number, Operation, Void> = GraphableStateMachineSchema(
                     graphStates: [.One, .Two, .Three],
                     graphEvents: [.Increment, .Decrement],
                     initialState: .One,
@@ -184,11 +184,11 @@ class StateMachineSpec: QuickSpec {
                         }
                     })
 
-                expect(structure.DOTDigraph) == "digraph {\n    graph [rankdir=LR]\n\n    0 [label=\"\", shape=plaintext]\n    0 -> 1 [label=\"START\"]\n\n    1 [label=\"One\"]\n    2 [label=\"Two\"]\n    3 [label=\"Three\"]\n\n    1 -> 2 [label=\"Increment\"]\n    2 -> 3 [label=\"Increment\"]\n    2 -> 1 [label=\"Decrement\"]\n    3 -> 2 [label=\"Decrement\"]\n}"
+                expect(schema.DOTDigraph) == "digraph {\n    graph [rankdir=LR]\n\n    0 [label=\"\", shape=plaintext]\n    0 -> 1 [label=\"START\"]\n\n    1 [label=\"One\"]\n    2 [label=\"Two\"]\n    3 [label=\"Three\"]\n\n    1 -> 2 [label=\"Increment\"]\n    2 -> 3 [label=\"Increment\"]\n    2 -> 1 [label=\"Decrement\"]\n    3 -> 2 [label=\"Decrement\"]\n}"
             }
 
             it("has correct initial state regardless of first state in an array") {
-                let structure: GraphableStateMachineStructure<Number, Operation, Void> = GraphableStateMachineStructure(
+                let schema: GraphableStateMachineSchema<Number, Operation, Void> = GraphableStateMachineSchema(
                     graphStates: [.Two, .One, .Three],
                     graphEvents: [.Increment, .Decrement],
                     initialState: .One,
@@ -211,7 +211,7 @@ class StateMachineSpec: QuickSpec {
                         }
                     })
 
-                expect(structure.DOTDigraph) == "digraph {\n    graph [rankdir=LR]\n\n    0 [label=\"\", shape=plaintext]\n    0 -> 2 [label=\"START\"]\n\n    1 [label=\"Two\"]\n    2 [label=\"One\"]\n    3 [label=\"Three\"]\n\n    1 -> 3 [label=\"Increment\"]\n    1 -> 2 [label=\"Decrement\"]\n    2 -> 1 [label=\"Increment\"]\n    3 -> 1 [label=\"Decrement\"]\n}"
+                expect(schema.DOTDigraph) == "digraph {\n    graph [rankdir=LR]\n\n    0 [label=\"\", shape=plaintext]\n    0 -> 2 [label=\"START\"]\n\n    1 [label=\"Two\"]\n    2 [label=\"One\"]\n    3 [label=\"Three\"]\n\n    1 -> 3 [label=\"Increment\"]\n    1 -> 2 [label=\"Decrement\"]\n    2 -> 1 [label=\"Increment\"]\n    3 -> 1 [label=\"Decrement\"]\n}"
             }
 
             it("escapes doubles quotes in labels") {
@@ -231,14 +231,14 @@ class StateMachineSpec: QuickSpec {
                     }
                 }
 
-                let structure = GraphableStateMachineStructure<State, Event, Void>(
+                let schema = GraphableStateMachineSchema<State, Event, Void>(
                     graphStates: [.S],
                     graphEvents: [.E],
                     initialState: .S,
                     transitionLogic: { _ in (.S, nil) }
                 )
 
-                expect(structure.DOTDigraph) == "digraph {\n    graph [rankdir=LR]\n\n    0 [label=\"\", shape=plaintext]\n    0 -> 1 [label=\"START\"]\n\n    1 [label=\"An \\\"awesome\\\" state\"]\n\n    1 -> 1 [label=\"An \\\"awesome\\\" event\"]\n}"
+                expect(schema.DOTDigraph) == "digraph {\n    graph [rankdir=LR]\n\n    0 [label=\"\", shape=plaintext]\n    0 -> 1 [label=\"START\"]\n\n    1 [label=\"An \\\"awesome\\\" state\"]\n\n    1 -> 1 [label=\"An \\\"awesome\\\" event\"]\n}"
             }
 
         }

@@ -11,7 +11,7 @@ public protocol DOTLabel {
 }
 
 
-public protocol StateMachineStructureType {
+public protocol StateMachineSchemaType {
     typealias State
     typealias Event
     typealias Subject
@@ -21,7 +21,7 @@ public protocol StateMachineStructureType {
 }
 
 
-public struct StateMachineStructure<A, B, C>: StateMachineStructureType {
+public struct StateMachineSchema<A, B, C>: StateMachineSchemaType {
     typealias State = A
     typealias Event = B
     typealias Subject = C
@@ -36,7 +36,7 @@ public struct StateMachineStructure<A, B, C>: StateMachineStructureType {
 }
 
 
-public struct GraphableStateMachineStructure<A: DOTLabel, B: DOTLabel, C>: StateMachineStructureType {
+public struct GraphableStateMachineSchema<A: DOTLabel, B: DOTLabel, C>: StateMachineSchemaType {
     typealias State = A
     typealias Event = B
     typealias Subject = C
@@ -48,7 +48,7 @@ public struct GraphableStateMachineStructure<A: DOTLabel, B: DOTLabel, C>: State
     public init(graphStates: [State], graphEvents: [Event], initialState: State, transitionLogic: (State, Event) -> (State, (Subject -> ())?)?) {
         self.initialState = initialState
         self.transitionLogic = transitionLogic
-        self.DOTDigraph = GraphableStateMachineStructure.DOTDigraphGivenTransitionLogic(transitionLogic, initialState: initialState, states: graphStates, events: graphEvents)
+        self.DOTDigraph = GraphableStateMachineSchema.DOTDigraphGivenTransitionLogic(transitionLogic, initialState: initialState, states: graphStates, events: graphEvents)
     }
 
     private static func DOTDigraphGivenTransitionLogic(transitionLogic: (State, Event) -> (State, (Subject -> ())?)?, initialState: State, states: [State], events: [Event]) -> String {
@@ -84,21 +84,21 @@ public struct GraphableStateMachineStructure<A: DOTLabel, B: DOTLabel, C>: State
 }
 
 
-public struct StateMachine<T: StateMachineStructureType> {
+public struct StateMachine<T: StateMachineSchemaType> {
     public var state: T.State
     public var didTransitionCallback: ((T.State, T.Event, T.State) -> ())?
 
-    private let structure: T
+    private let schema: T
     private let subject: T.Subject
 
-    public init(structure: T, subject: T.Subject) {
-        self.state = structure.initialState
-        self.structure = structure
+    public init(schema: T, subject: T.Subject) {
+        self.state = schema.initialState
+        self.schema = schema
         self.subject = subject
     }
 
     public mutating func handleEvent(event: T.Event) {
-        if let (newState, transition) = structure.transitionLogic(state, event) {
+        if let (newState, transition) = schema.transitionLogic(state, event) {
             let oldState = state
             state = newState
             transition?(subject)

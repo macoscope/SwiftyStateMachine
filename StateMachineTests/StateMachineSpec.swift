@@ -57,7 +57,7 @@ extension Operation: DOTLabel {
 private enum SimpleState { case S1, S2 }
 private enum SimpleEvent { case E }
 
-private func createSimpleMachine(forward: (() -> ())? = nil, backward: (() -> ())? = nil) -> StateMachine<SimpleState, SimpleEvent, Void> {
+private func createSimpleMachine(forward: (() -> ())? = nil, backward: (() -> ())? = nil) -> StateMachine<StateMachineStructure<SimpleState, SimpleEvent, Void>> {
     let structure = StateMachineStructure<SimpleState, SimpleEvent, Void>(initialState: .S1) { (state, event, _, _) in
         switch state {
             case .S1: switch event {
@@ -70,7 +70,7 @@ private func createSimpleMachine(forward: (() -> ())? = nil, backward: (() -> ()
         }
     }
 
-    return structure.stateMachineWithSubject(())
+    return StateMachine(structure: structure, subject: ())
 }
 
 
@@ -78,7 +78,7 @@ class StateMachineSpec: QuickSpec {
     override func spec() {
         describe("State Machine") {
             var keeper: NumberKeeper!
-            var keeperMachine: StateMachine<Number, Operation, NumberKeeper>!
+            var keeperMachine: StateMachine<StateMachineStructure<Number, Operation, NumberKeeper>>!
 
             beforeEach {
                 keeper = NumberKeeper(n: 1)
@@ -105,7 +105,7 @@ class StateMachineSpec: QuickSpec {
                     }
                 }
 
-                keeperMachine = structure.stateMachineWithSubject(keeper)
+                keeperMachine = StateMachine(structure: structure, subject: keeper)
             }
 
             it("can be associated with a subject") {
@@ -148,7 +148,7 @@ class StateMachineSpec: QuickSpec {
                 var machine = createSimpleMachine()
 
                 var callbackWasCalledCorrectly = false
-                machine.didTransitionCallback = { (oldState, event, newState) in
+                machine.didTransitionCallback = { (oldState: SimpleState, event: SimpleEvent, newState: SimpleState) in
                     callbackWasCalledCorrectly = oldState == .S1 && event == .E && newState == .S2
                 }
 

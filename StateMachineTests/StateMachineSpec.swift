@@ -58,14 +58,14 @@ private enum SimpleState { case S1, S2 }
 private enum SimpleEvent { case E }
 
 private func createSimpleMachine(forward: (() -> ())? = nil, backward: (() -> ())? = nil) -> StateMachine<StateMachineStructure<SimpleState, SimpleEvent, Void>> {
-    let structure = StateMachineStructure<SimpleState, SimpleEvent, Void>(initialState: .S1) { (state, event, _, _) in
+    let structure = StateMachineStructure<SimpleState, SimpleEvent, Void>(initialState: .S1) { (state, event) in
         switch state {
             case .S1: switch event {
-                case .E: return (.S2, forward)
+                case .E: return (.S2, { _ in forward?() })
             }
 
             case .S2: switch event {
-                case .E: return (.S1, backward)
+                case .E: return (.S1, { _ in backward?() })
             }
         }
     }
@@ -83,9 +83,9 @@ class StateMachineSpec: QuickSpec {
             beforeEach {
                 keeper = NumberKeeper(n: 1)
 
-                let structure: StateMachineStructure<Number, Operation, NumberKeeper> = StateMachineStructure(initialState: .One) { (state, event, _, _) in
-                    let decrement = { keeper.n -= 1 }
-                    let increment = { keeper.n += 1 }
+                let structure: StateMachineStructure<Number, Operation, NumberKeeper> = StateMachineStructure(initialState: .One) { (state, event) in
+                    let decrement: (NumberKeeper, (Operation) -> ()) -> () = { _ in keeper.n -= 1 }
+                    let increment: (NumberKeeper, (Operation) -> ()) -> () = { _ in keeper.n += 1 }
 
                     switch state {
                         case .One: switch event {
@@ -164,9 +164,8 @@ class StateMachineSpec: QuickSpec {
                 let structure: GraphableStateMachineStructure<Number, Operation, Void> = GraphableStateMachineStructure(
                     graphStates: [.One, .Two, .Three],
                     graphEvents: [.Increment, .Decrement],
-                    graphSubject: (),
                     initialState: .One,
-                    transitionLogic: { (state, event, _, _) in
+                    transitionLogic: { (state, event) in
                         switch state {
                             case .One: switch event {
                                 case .Decrement: return nil

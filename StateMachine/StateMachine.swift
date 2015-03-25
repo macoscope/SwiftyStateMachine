@@ -66,7 +66,7 @@ public class GraphableStateMachineStructure<S: DOTLabel, E: DOTLabel, T>: StateM
 }
 
 
-public class StateMachine<S, E, T> {
+public struct StateMachine<S, E, T> {
     public var state: S
     public var didTransitionCallback: ((S, E, S) -> ())?
 
@@ -79,7 +79,7 @@ public class StateMachine<S, E, T> {
         self.subject = subject
     }
 
-    public func handleEvent(event: E) {
+    public mutating func handleEvent(event: E) {
         if let (newState, transition) = structure.transitionLogic(state, event, subject, self) {
             let oldState = state
             state = newState

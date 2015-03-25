@@ -115,7 +115,7 @@ class StateMachineSpec: QuickSpec {
             }
 
             it("doesn't have to be associated with a subject") {
-                let machine = createSimpleMachine()
+                var machine = createSimpleMachine()
 
                 expect(machine.state) == SimpleState.S1
                 machine.handleEvent(.E)
@@ -137,7 +137,7 @@ class StateMachineSpec: QuickSpec {
             it("executes transition block on transition") {
                 var didExecuteBlock = false
 
-                let machine = createSimpleMachine(forward: { didExecuteBlock = true })
+                var machine = createSimpleMachine(forward: { didExecuteBlock = true })
                 expect(didExecuteBlock) == false
 
                 machine.handleEvent(.E)
@@ -145,7 +145,7 @@ class StateMachineSpec: QuickSpec {
             }
 
             it("can have transition callback") {
-                let machine = createSimpleMachine()
+                var machine = createSimpleMachine()
 
                 var callbackWasCalledCorrectly = false
                 machine.didTransitionCallback = { (oldState, event, newState) in

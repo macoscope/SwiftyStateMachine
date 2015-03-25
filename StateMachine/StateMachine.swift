@@ -6,8 +6,9 @@
 //  Copyright (c) 2015 Macoscope. All rights reserved.
 //
 
-public protocol DOTLabel {
+public protocol DOTLabelable {
     var DOTLabel: String { get }
+    static var DOTLabelableItems: [Self] { get }
 }
 
 
@@ -36,7 +37,7 @@ public struct StateMachineSchema<A, B, C>: StateMachineSchemaType {
 }
 
 
-public struct GraphableStateMachineSchema<A: DOTLabel, B: DOTLabel, C>: StateMachineSchemaType {
+public struct GraphableStateMachineSchema<A: DOTLabelable, B: DOTLabelable, C>: StateMachineSchemaType {
     typealias State = A
     typealias Event = B
     typealias Subject = C
@@ -45,13 +46,16 @@ public struct GraphableStateMachineSchema<A: DOTLabel, B: DOTLabel, C>: StateMac
     public let transitionLogic: (State, Event) -> (State, (Subject -> ())?)?
     public let DOTDigraph: String
 
-    public init(graphStates: [State], graphEvents: [Event], initialState: State, transitionLogic: (State, Event) -> (State, (Subject -> ())?)?) {
+    public init(initialState: State, transitionLogic: (State, Event) -> (State, (Subject -> ())?)?) {
         self.initialState = initialState
         self.transitionLogic = transitionLogic
-        self.DOTDigraph = GraphableStateMachineSchema.DOTDigraphGivenTransitionLogic(transitionLogic, initialState: initialState, states: graphStates, events: graphEvents)
+        self.DOTDigraph = GraphableStateMachineSchema.DOTDigraphGivenInitialState(initialState, transitionLogic: transitionLogic)
     }
 
-    private static func DOTDigraphGivenTransitionLogic(transitionLogic: (State, Event) -> (State, (Subject -> ())?)?, initialState: State, states: [State], events: [Event]) -> String {
+    private static func DOTDigraphGivenInitialState(initialState: State, transitionLogic: (State, Event) -> (State, (Subject -> ())?)?) -> String {
+        let states = State.DOTLabelableItems
+        let events = Event.DOTLabelableItems
+
         var stateIndexesByLabel: [String: Int] = [:]
         for (i, state) in enumerate(states) {
             stateIndexesByLabel[label(state)] = i + 1
@@ -109,6 +113,6 @@ public struct StateMachine<T: StateMachineSchemaType> {
 
 
 /// Helper function used when generating DOT digraph strings.
-private func label<T: DOTLabel>(x: T) -> String {
+private func label<T: DOTLabelable>(x: T) -> String {
     return x.DOTLabel.stringByReplacingOccurrencesOfString("\"", withString: "\\\"", options: .LiteralSearch, range: nil)
 }

@@ -41,13 +41,41 @@ private enum Operation {
 }
 
 
-extension Number: DOTLabel {
+extension Number: DOTLabelable {
+    static var DOTLabelableItems: [Number] {
+        var items: [Number] = [.One, .Two, .Three]
+
+        // Trick: switch on all cases and get an error if you miss any.
+        // If you do, add it to the line above
+        for item in items {
+            switch item {
+                case .One, .Two, .Three: break
+            }
+        }
+
+        return items
+    }
+
     var DOTLabel: String {
         return debugDescription
     }
 }
 
-extension Operation: DOTLabel {
+extension Operation: DOTLabelable {
+    static var DOTLabelableItems: [Operation] {
+        var items: [Operation] = [.Increment, .Decrement]
+
+        // Trick: switch on all cases and get an error if you miss any.
+        // If you do, add it to the line above
+        for item in items {
+            switch item {
+                case .Increment, .Decrement: break
+            }
+        }
+
+        return items
+    }
+
     var DOTLabel: String {
         return debugDescription
     }
@@ -161,82 +189,44 @@ class StateMachineSpec: QuickSpec {
         describe("Graphable State Machine") {
 
             it("has representation in DOT format") {
-                let schema: GraphableStateMachineSchema<Number, Operation, Void> = GraphableStateMachineSchema(
-                    graphStates: [.One, .Two, .Three],
-                    graphEvents: [.Increment, .Decrement],
-                    initialState: .One,
-                    transitionLogic: { (state, event) in
-                        switch state {
-                            case .One: switch event {
-                                case .Decrement: return nil
-                                case .Increment: return (.Two, nil)
-                            }
-
-                            case .Two: switch event {
-                                case .Decrement: return (.One, nil)
-                                case .Increment: return (.Three, nil)
-                            }
-
-                            case .Three: switch event {
-                                case .Decrement: return (.Two, nil)
-                                case .Increment: return nil
-                            }
+                let schema: GraphableStateMachineSchema<Number, Operation, Void> = GraphableStateMachineSchema(initialState: .One) { (state, event) in
+                    switch state {
+                        case .One: switch event {
+                            case .Decrement: return nil
+                            case .Increment: return (.Two, nil)
                         }
-                    })
+
+                        case .Two: switch event {
+                            case .Decrement: return (.One, nil)
+                            case .Increment: return (.Three, nil)
+                        }
+
+                        case .Three: switch event {
+                            case .Decrement: return (.Two, nil)
+                            case .Increment: return nil
+                        }
+                    }
+                }
 
                 expect(schema.DOTDigraph) == "digraph {\n    graph [rankdir=LR]\n\n    0 [label=\"\", shape=plaintext]\n    0 -> 1 [label=\"START\"]\n\n    1 [label=\"One\"]\n    2 [label=\"Two\"]\n    3 [label=\"Three\"]\n\n    1 -> 2 [label=\"Increment\"]\n    2 -> 3 [label=\"Increment\"]\n    2 -> 1 [label=\"Decrement\"]\n    3 -> 2 [label=\"Decrement\"]\n}"
             }
 
-            it("has correct initial state regardless of first state in an array") {
-                let schema: GraphableStateMachineSchema<Number, Operation, Void> = GraphableStateMachineSchema(
-                    graphStates: [.Two, .One, .Three],
-                    graphEvents: [.Increment, .Decrement],
-                    initialState: .One,
-                    transitionLogic: { (state, event) in
-                        switch state {
-                            case .One: switch event {
-                                case .Decrement: return nil
-                                case .Increment: return (.Two, nil)
-                            }
-
-                            case .Two: switch event {
-                                case .Decrement: return (.One, nil)
-                                case .Increment: return (.Three, nil)
-                            }
-
-                            case .Three: switch event {
-                                case .Decrement: return (.Two, nil)
-                                case .Increment: return nil
-                            }
-                        }
-                    })
-
-                expect(schema.DOTDigraph) == "digraph {\n    graph [rankdir=LR]\n\n    0 [label=\"\", shape=plaintext]\n    0 -> 2 [label=\"START\"]\n\n    1 [label=\"Two\"]\n    2 [label=\"One\"]\n    3 [label=\"Three\"]\n\n    1 -> 3 [label=\"Increment\"]\n    1 -> 2 [label=\"Decrement\"]\n    2 -> 1 [label=\"Increment\"]\n    3 -> 1 [label=\"Decrement\"]\n}"
-            }
-
             it("escapes doubles quotes in labels") {
-                enum State: DOTLabel {
+                enum State: DOTLabelable {
                     case S
-
-                    var DOTLabel: String {
-                        return "An \"awesome\" state"
-                    }
+                    var DOTLabel: String { return "An \"awesome\" state" }
+                    static var DOTLabelableItems: [State] { return [.S] }
                 }
 
-                enum Event: DOTLabel {
+                enum Event: DOTLabelable {
                     case E
-
-                    var DOTLabel: String {
-                        return "An \"awesome\" event"
-                    }
+                    var DOTLabel: String { return "An \"awesome\" event" }
+                    static var DOTLabelableItems: [Event] { return [.E] }
                 }
 
-                let schema = GraphableStateMachineSchema<State, Event, Void>(
-                    graphStates: [.S],
-                    graphEvents: [.E],
-                    initialState: .S,
-                    transitionLogic: { _ in (.S, nil) }
-                )
+                let schema = GraphableStateMachineSchema<State, Event, Void>(initialState: .S) { _ in
+                    (.S, nil)
+                }
 
                 expect(schema.DOTDigraph) == "digraph {\n    graph [rankdir=LR]\n\n    0 [label=\"\", shape=plaintext]\n    0 -> 1 [label=\"START\"]\n\n    1 [label=\"An \\\"awesome\\\" state\"]\n\n    1 -> 1 [label=\"An \\\"awesome\\\" event\"]\n}"
             }

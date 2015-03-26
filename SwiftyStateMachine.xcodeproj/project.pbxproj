@@ -15,6 +15,7 @@
 		CB4D56BD1AC17731006715E8 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D56BB1AC17731006715E8 /* Nimble.framework */; };
 		CB4D56BE1AC17731006715E8 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D56BC1AC17731006715E8 /* Quick.framework */; };
 		CBE36CC11AC442D200CFE10F /* StateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7159F01AC1B07E0085C9AE /* StateMachine.swift */; };
+		CBE36CC31AC443F600CFE10F /* GraphableStateMachineSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE36CC21AC443F600CFE10F /* GraphableStateMachineSchema.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		CB4D56BB1AC17731006715E8 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Nimble.framework; sourceTree = "<group>"; };
 		CB4D56BC1AC17731006715E8 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quick.framework; sourceTree = "<group>"; };
 		CB7159F01AC1B07E0085C9AE /* StateMachine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateMachine.swift; sourceTree = "<group>"; };
+		CBE36CC21AC443F600CFE10F /* GraphableStateMachineSchema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphableStateMachineSchema.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 			children = (
 				CB4D569E1AC169A3006715E8 /* StateMachine.h */,
 				CB7159F01AC1B07E0085C9AE /* StateMachine.swift */,
+				CBE36CC21AC443F600CFE10F /* GraphableStateMachineSchema.swift */,
 				CB4D569C1AC169A3006715E8 /* Supporting Files */,
 			);
 			path = StateMachine;
@@ -256,6 +259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CBE36CC11AC442D200CFE10F /* StateMachine.swift in Sources */,
+				CBE36CC31AC443F600CFE10F /* GraphableStateMachineSchema.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

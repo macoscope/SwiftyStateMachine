@@ -16,9 +16,7 @@
 		CB4D56BE1AC17731006715E8 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D56BC1AC17731006715E8 /* Quick.framework */; };
 		CBE36CC11AC442D200CFE10F /* StateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7159F01AC1B07E0085C9AE /* StateMachine.swift */; };
 		CBE36CC31AC443F600CFE10F /* GraphableStateMachineSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE36CC21AC443F600CFE10F /* GraphableStateMachineSchema.swift */; };
-		CBE36D0E1AC44BA000CFE10F /* SwiftyStateMachine-Mac.h in Headers */ = {isa = PBXBuildFile; fileRef = CBE36D0D1AC44BA000CFE10F /* SwiftyStateMachine-Mac.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CBE36D141AC44BA000CFE10F /* SwiftyStateMachine-Mac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBE36D091AC44BA000CFE10F /* SwiftyStateMachine-Mac.framework */; };
-		CBE36D1B1AC44BA000CFE10F /* SwiftyStateMachine_MacTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE36D1A1AC44BA000CFE10F /* SwiftyStateMachine_MacTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,11 +62,7 @@
 		CB7159F01AC1B07E0085C9AE /* StateMachine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateMachine.swift; sourceTree = "<group>"; };
 		CBE36CC21AC443F600CFE10F /* GraphableStateMachineSchema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphableStateMachineSchema.swift; sourceTree = "<group>"; };
 		CBE36D091AC44BA000CFE10F /* SwiftyStateMachine-Mac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "SwiftyStateMachine-Mac.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CBE36D0C1AC44BA000CFE10F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CBE36D0D1AC44BA000CFE10F /* SwiftyStateMachine-Mac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SwiftyStateMachine-Mac.h"; sourceTree = "<group>"; };
-		CBE36D131AC44BA000CFE10F /* SwiftyStateMachine-MacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SwiftyStateMachine-MacTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CBE36D191AC44BA000CFE10F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CBE36D1A1AC44BA000CFE10F /* SwiftyStateMachine_MacTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyStateMachine_MacTests.swift; sourceTree = "<group>"; };
+		CBE36D131AC44BA000CFE10F /* SwiftyStateMachine-MacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "SwiftyStateMachine-MacTests.xctest"; path = "SwiftyStateMachine-Mac Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,8 +107,6 @@
 				CB4D569B1AC169A3006715E8 /* StateMachine */,
 				CB4D56A81AC169A3006715E8 /* StateMachineTests */,
 				CB4D56B51AC17640006715E8 /* Carthage Frameworks */,
-				CBE36D0A1AC44BA000CFE10F /* SwiftyStateMachine-Mac */,
-				CBE36D171AC44BA000CFE10F /* SwiftyStateMachine-MacTests */,
 				CB4D569A1AC169A3006715E8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -185,40 +177,6 @@
 			path = Carthage/Build/iOS;
 			sourceTree = SOURCE_ROOT;
 		};
-		CBE36D0A1AC44BA000CFE10F /* SwiftyStateMachine-Mac */ = {
-			isa = PBXGroup;
-			children = (
-				CBE36D0D1AC44BA000CFE10F /* SwiftyStateMachine-Mac.h */,
-				CBE36D0B1AC44BA000CFE10F /* Supporting Files */,
-			);
-			path = "SwiftyStateMachine-Mac";
-			sourceTree = "<group>";
-		};
-		CBE36D0B1AC44BA000CFE10F /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				CBE36D0C1AC44BA000CFE10F /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		CBE36D171AC44BA000CFE10F /* SwiftyStateMachine-MacTests */ = {
-			isa = PBXGroup;
-			children = (
-				CBE36D1A1AC44BA000CFE10F /* SwiftyStateMachine_MacTests.swift */,
-				CBE36D181AC44BA000CFE10F /* Supporting Files */,
-			);
-			path = "SwiftyStateMachine-MacTests";
-			sourceTree = "<group>";
-		};
-		CBE36D181AC44BA000CFE10F /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				CBE36D191AC44BA000CFE10F /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -234,7 +192,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CBE36D0E1AC44BA000CFE10F /* SwiftyStateMachine-Mac.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -417,7 +374,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CBE36D1B1AC44BA000CFE10F /* SwiftyStateMachine_MacTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -708,6 +664,7 @@
 				CBE36D1D1AC44BA000CFE10F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CBE36D211AC44BA000CFE10F /* Build configuration list for PBXNativeTarget "SwiftyStateMachine-Mac Tests" */ = {
 			isa = XCConfigurationList;
@@ -716,6 +673,7 @@
 				CBE36D1F1AC44BA000CFE10F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

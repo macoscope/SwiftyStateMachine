@@ -1,11 +1,3 @@
-//
-//  GraphableStateMachineSchema.swift
-//  SwiftyStateMachine
-//
-//  Created by Maciej Konieczny on 2015-03-26.
-//  Copyright (c) 2015 Macoscope. All rights reserved.
-//
-
 import Foundation
 
 
@@ -36,10 +28,10 @@ public struct GraphableStateMachineSchema<A: DOTLabelable, B: DOTLabelable, C>: 
     // Verify if [`AmIBeingDebugged`][1] can be used here.  In particular, figure out
     // if this means that an app will be rejected during App Review:
     //
-    // > Important: Because the definition of the kinfo_proc structure (in <sys/sysctl.h>) 
+    // > Important: Because the definition of the kinfo_proc structure (in <sys/sysctl.h>)
     // > is conditionalized by __APPLE_API_UNSTABLE, you should restrict use of the above
     // > code to the debug build of your program.
-    // 
+    //
     //   [1]: https://developer.apple.com/library/mac/qa/qa1361/_index.html
     #else
     public func saveDOTDigraphIfRunningInSimulator(#filepathRelativeToCurrentFile: String, file: String = __FILE__) {

@@ -164,9 +164,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		CB4D56981AC169A3006715E8 /* SwiftyStateMachine */ = {
+		CB4D56981AC169A3006715E8 /* SwiftyStateMachine-iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CB4D56AF1AC169A3006715E8 /* Build configuration list for PBXNativeTarget "SwiftyStateMachine" */;
+			buildConfigurationList = CB4D56AF1AC169A3006715E8 /* Build configuration list for PBXNativeTarget "SwiftyStateMachine-iOS" */;
 			buildPhases = (
 				CB4D56941AC169A3006715E8 /* Sources */,
 				CB4D56951AC169A3006715E8 /* Frameworks */,
@@ -177,14 +177,14 @@
 			);
 			dependencies = (
 			);
-			name = SwiftyStateMachine;
+			name = "SwiftyStateMachine-iOS";
 			productName = StateMachine;
 			productReference = CB4D56991AC169A3006715E8 /* SwiftyStateMachine.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		CB4D56A31AC169A3006715E8 /* SwiftyStateMachineTests */ = {
+		CB4D56A31AC169A3006715E8 /* SwiftyStateMachine-iOS Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CB4D56B21AC169A3006715E8 /* Build configuration list for PBXNativeTarget "SwiftyStateMachineTests" */;
+			buildConfigurationList = CB4D56B21AC169A3006715E8 /* Build configuration list for PBXNativeTarget "SwiftyStateMachine-iOS Tests" */;
 			buildPhases = (
 				CB4D56A01AC169A3006715E8 /* Sources */,
 				CB4D56A11AC169A3006715E8 /* Frameworks */,
@@ -196,7 +196,7 @@
 			dependencies = (
 				CB4D56A71AC169A3006715E8 /* PBXTargetDependency */,
 			);
-			name = SwiftyStateMachineTests;
+			name = "SwiftyStateMachine-iOS Tests";
 			productName = StateMachineTests;
 			productReference = CB4D56A41AC169A3006715E8 /* SwiftyStateMachineTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -230,8 +230,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CB4D56981AC169A3006715E8 /* SwiftyStateMachine */,
-				CB4D56A31AC169A3006715E8 /* SwiftyStateMachineTests */,
+				CB4D56981AC169A3006715E8 /* SwiftyStateMachine-iOS */,
+				CB4D56A31AC169A3006715E8 /* SwiftyStateMachine-iOS Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -276,7 +276,7 @@
 /* Begin PBXTargetDependency section */
 		CB4D56A71AC169A3006715E8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CB4D56981AC169A3006715E8 /* SwiftyStateMachine */;
+			target = CB4D56981AC169A3006715E8 /* SwiftyStateMachine-iOS */;
 			targetProxy = CB4D56A61AC169A3006715E8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -448,7 +448,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CB4D56AF1AC169A3006715E8 /* Build configuration list for PBXNativeTarget "SwiftyStateMachine" */ = {
+		CB4D56AF1AC169A3006715E8 /* Build configuration list for PBXNativeTarget "SwiftyStateMachine-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CB4D56B01AC169A3006715E8 /* Debug */,
@@ -457,7 +457,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CB4D56B21AC169A3006715E8 /* Build configuration list for PBXNativeTarget "SwiftyStateMachineTests" */ = {
+		CB4D56B21AC169A3006715E8 /* Build configuration list for PBXNativeTarget "SwiftyStateMachine-iOS Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CB4D56B31AC169A3006715E8 /* Debug */,

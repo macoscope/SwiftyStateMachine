@@ -17,6 +17,10 @@
 		CBE36CC11AC442D200CFE10F /* StateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7159F01AC1B07E0085C9AE /* StateMachine.swift */; };
 		CBE36CC31AC443F600CFE10F /* GraphableStateMachineSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE36CC21AC443F600CFE10F /* GraphableStateMachineSchema.swift */; };
 		CBE36D141AC44BA000CFE10F /* SwiftyStateMachine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBE36D091AC44BA000CFE10F /* SwiftyStateMachine.framework */; };
+		CBE36D221AC44D4000CFE10F /* StateMachine.h in Headers */ = {isa = PBXBuildFile; fileRef = CB4D569E1AC169A3006715E8 /* StateMachine.h */; };
+		CBE36D231AC44D4000CFE10F /* StateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7159F01AC1B07E0085C9AE /* StateMachine.swift */; };
+		CBE36D241AC44D4000CFE10F /* GraphableStateMachineSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE36CC21AC443F600CFE10F /* GraphableStateMachineSchema.swift */; };
+		CBE36D251AC44D4B00CFE10F /* StateMachineSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4D56AB1AC169A3006715E8 /* StateMachineSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -192,6 +196,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBE36D221AC44D4000CFE10F /* StateMachine.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,6 +372,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBE36D231AC44D4000CFE10F /* StateMachine.swift in Sources */,
+				CBE36D241AC44D4000CFE10F /* GraphableStateMachineSchema.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,6 +381,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBE36D251AC44D4B00CFE10F /* StateMachineSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

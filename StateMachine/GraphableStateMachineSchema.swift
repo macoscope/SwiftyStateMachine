@@ -30,12 +30,25 @@ public struct GraphableStateMachineSchema<A: DOTLabelable, B: DOTLabelable, C>: 
         self.DOTDigraph = GraphableStateMachineSchema.DOTDigraphGivenInitialState(initialState, transitionLogic: transitionLogic)
     }
 
+    #if os(OSX)
+    // TODO: Figure out how detect scenario "I'm running my Mac app from Xcode".
+    //
+    // Verify if [`AmIBeingDebugged`][1] can be used here.  In particular, figure out
+    // if this means that an app will be rejected during App Review:
+    //
+    // > Important: Because the definition of the kinfo_proc structure (in <sys/sysctl.h>) 
+    // > is conditionalized by __APPLE_API_UNSTABLE, you should restrict use of the above
+    // > code to the debug build of your program.
+    // 
+    //   [1]: https://developer.apple.com/library/mac/qa/qa1361/_index.html
+    #else
     public func saveDOTDigraphIfRunningInSimulator(#filepathRelativeToCurrentFile: String, file: String = __FILE__) {
         if TARGET_IPHONE_SIMULATOR == 1 {
             let filepath = file.stringByDeletingLastPathComponent.stringByAppendingPathComponent(filepathRelativeToCurrentFile)
             DOTDigraph.writeToFile(filepath, atomically: true, encoding: NSUTF8StringEncoding, error: nil)
         }
     }
+    #endif
 
     private static func DOTDigraphGivenInitialState(initialState: State, transitionLogic: (State, Event) -> (State, (Subject -> ())?)?) -> String {
         let states = State.DOTLabelableItems

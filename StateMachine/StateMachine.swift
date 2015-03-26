@@ -52,6 +52,13 @@ public struct GraphableStateMachineSchema<A: DOTLabelable, B: DOTLabelable, C>: 
         self.DOTDigraph = GraphableStateMachineSchema.DOTDigraphGivenInitialState(initialState, transitionLogic: transitionLogic)
     }
 
+    public func saveDOTDigraphIfRunningInSimulator(#filepathRelativeToCurrentFile: String, file: String = __FILE__) {
+        if TARGET_IPHONE_SIMULATOR == 1 {
+            let filepath = file.stringByDeletingLastPathComponent.stringByAppendingPathComponent(filepathRelativeToCurrentFile)
+            DOTDigraph.writeToFile(filepath, atomically: true, encoding: NSUTF8StringEncoding, error: nil)
+        }
+    }
+
     private static func DOTDigraphGivenInitialState(initialState: State, transitionLogic: (State, Event) -> (State, (Subject -> ())?)?) -> String {
         let states = State.DOTLabelableItems
         let events = Event.DOTLabelableItems

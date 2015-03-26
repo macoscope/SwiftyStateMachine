@@ -21,6 +21,10 @@
 		CBE36D231AC44D4000CFE10F /* StateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7159F01AC1B07E0085C9AE /* StateMachine.swift */; };
 		CBE36D241AC44D4000CFE10F /* GraphableStateMachineSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE36CC21AC443F600CFE10F /* GraphableStateMachineSchema.swift */; };
 		CBE36D251AC44D4B00CFE10F /* StateMachineSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4D56AB1AC169A3006715E8 /* StateMachineSpec.swift */; };
+		CBE36D291AC44D9200CFE10F /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBE36D271AC44D9100CFE10F /* Nimble.framework */; };
+		CBE36D2A1AC44D9200CFE10F /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBE36D281AC44D9100CFE10F /* Quick.framework */; };
+		CBE36D2C1AC44DCB00CFE10F /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CBE36D271AC44D9100CFE10F /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CBE36D2D1AC44DCB00CFE10F /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CBE36D281AC44D9100CFE10F /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +56,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CBE36D2B1AC44DBE00CFE10F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				CBE36D2C1AC44DCB00CFE10F /* Nimble.framework in CopyFiles */,
+				CBE36D2D1AC44DCB00CFE10F /* Quick.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -66,7 +81,9 @@
 		CB7159F01AC1B07E0085C9AE /* StateMachine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateMachine.swift; sourceTree = "<group>"; };
 		CBE36CC21AC443F600CFE10F /* GraphableStateMachineSchema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphableStateMachineSchema.swift; sourceTree = "<group>"; };
 		CBE36D091AC44BA000CFE10F /* SwiftyStateMachine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyStateMachine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CBE36D131AC44BA000CFE10F /* SwiftyStateMachine-MacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "SwiftyStateMachine-MacTests.xctest"; path = SwiftyStateMachineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CBE36D131AC44BA000CFE10F /* SwiftyStateMachineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftyStateMachineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CBE36D271AC44D9100CFE10F /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Nimble.framework; sourceTree = "<group>"; };
+		CBE36D281AC44D9100CFE10F /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quick.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +116,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CBE36D141AC44BA000CFE10F /* SwiftyStateMachine.framework in Frameworks */,
+				CBE36D291AC44D9200CFE10F /* Nimble.framework in Frameworks */,
+				CBE36D2A1AC44D9200CFE10F /* Quick.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,7 +140,7 @@
 				CB4D56991AC169A3006715E8 /* SwiftyStateMachine.framework */,
 				CB4D56A41AC169A3006715E8 /* SwiftyStateMachineTests.xctest */,
 				CBE36D091AC44BA000CFE10F /* SwiftyStateMachine.framework */,
-				CBE36D131AC44BA000CFE10F /* SwiftyStateMachine-MacTests.xctest */,
+				CBE36D131AC44BA000CFE10F /* SwiftyStateMachineTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -166,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				CB4D56BA1AC17731006715E8 /* iOS */,
+				CBE36D261AC44D9100CFE10F /* Mac */,
 			);
 			name = "Carthage Frameworks";
 			path = StateMachine;
@@ -179,6 +199,16 @@
 			);
 			name = iOS;
 			path = Carthage/Build/iOS;
+			sourceTree = SOURCE_ROOT;
+		};
+		CBE36D261AC44D9100CFE10F /* Mac */ = {
+			isa = PBXGroup;
+			children = (
+				CBE36D271AC44D9100CFE10F /* Nimble.framework */,
+				CBE36D281AC44D9100CFE10F /* Quick.framework */,
+			);
+			name = Mac;
+			path = Carthage/Build/Mac;
 			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
@@ -265,6 +295,7 @@
 				CBE36D0F1AC44BA000CFE10F /* Sources */,
 				CBE36D101AC44BA000CFE10F /* Frameworks */,
 				CBE36D111AC44BA000CFE10F /* Resources */,
+				CBE36D2B1AC44DBE00CFE10F /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -273,7 +304,7 @@
 			);
 			name = "SwiftyStateMachine-Mac Tests";
 			productName = "SwiftyStateMachine-MacTests";
-			productReference = CBE36D131AC44BA000CFE10F /* SwiftyStateMachine-MacTests.xctest */;
+			productReference = CBE36D131AC44BA000CFE10F /* SwiftyStateMachineTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -606,6 +637,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -626,6 +658,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				INFOPLIST_FILE = StateMachineTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";

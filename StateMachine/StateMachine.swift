@@ -6,6 +6,9 @@
 //  Copyright (c) 2015 Macoscope. All rights reserved.
 //
 
+import Foundation
+
+
 public protocol DOTLabelable {
     var DOTLabel: String { get }
     static var DOTLabelableItems: [Self] { get }

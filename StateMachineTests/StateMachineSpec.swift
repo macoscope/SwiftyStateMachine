@@ -9,7 +9,7 @@
 import Quick
 import Nimble
 
-import StateMachine
+import SwiftyStateMachine
 
 
 private struct NumberKeeper {

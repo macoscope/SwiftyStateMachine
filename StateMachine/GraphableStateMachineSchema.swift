@@ -1,12 +1,39 @@
 import Foundation
 
 
+/// A type, preferably an `enum`, representing states or events in
+/// a State Machine.  Used by `GraphableStateMachineSchema` to create
+/// state machine graphs in the DOT graph description language [1].
+///
+/// Provides an array of items (states or events) used in a graph, and
+/// a textual representation of each item, used when assigning labels
+/// to graph elements.
+///
+///   [1]: http://en.wikipedia.org/wiki/DOT_%28graph_description_language%29
 public protocol DOTLabelable {
+
+    /// A textual representation of `self`, suitable for creating a label
+    /// in a graph.
     var DOTLabel: String { get }
+
+    /// Array of items of given type (states or events) used in a graph.
     static var DOTLabelableItems: [Self] { get }
 }
 
 
+/// A state machine schema with a graph of the state machine in the DOT graph
+/// description language [1].
+///
+/// Requires `State` and `Event` types to conform to `DOTLabelable` protocol.
+///
+/// Textual representation of a graph is accessible by `DOTDigraph` property.
+/// On iOS, it can be saved to disk with `saveDOTDigraphIfRunningInSimulator`
+/// method.
+///
+/// For more information about state machine schemas, see
+/// `StateMachineSchemaType` documentation.
+///
+///   [1]: http://en.wikipedia.org/wiki/DOT_%28graph_description_language%29
 public struct GraphableStateMachineSchema<A: DOTLabelable, B: DOTLabelable, C>: StateMachineSchemaType {
     typealias State = A
     typealias Event = B
@@ -34,6 +61,20 @@ public struct GraphableStateMachineSchema<A: DOTLabelable, B: DOTLabelable, C>: 
     //
     //   [1]: https://developer.apple.com/library/mac/qa/qa1361/_index.html
     #else
+    /// Save textual graph representation from `DOTDigraph` property to a file,
+    /// preferably in a project directory, for documentation purposes.  Works
+    /// only when running in a simulator.
+    ///
+    /// Filepath of the graph file is relative to the filepath of the calling
+    /// file, e.g. if you call this method from a file called
+    /// `MyProject/InboxViewController.swift` and pass `"Inbox.dot"` as
+    /// a filepath, diagram will be saved as `MyProject/Inbox.dot`.
+    ///
+    /// Files in DOT format [1] can be viewed in different applications, e.g.
+    /// Graphviz [2].
+    ///
+    ///   [1]: https://developer.apple.com/library/mac/qa/qa1361/_index.html
+    ///   [2]: http://www.graphviz.org/
     public func saveDOTDigraphIfRunningInSimulator(#filepathRelativeToCurrentFile: String, file: String = __FILE__) {
         if TARGET_IPHONE_SIMULATOR == 1 {
             let filepath = file.stringByDeletingLastPathComponent.stringByAppendingPathComponent(filepathRelativeToCurrentFile)

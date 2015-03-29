@@ -35,10 +35,10 @@ private enum Operation {
 
 extension Number: DOTLabelable {
     static var DOTLabelableItems: [Number] {
-        var items: [Number] = [.One, .Two, .Three]
+        let items: [Number] = [.One, .Two, .Three]
 
         // Trick: switch on all cases and get an error if you miss any.
-        // If you do, add it to the line above
+        // Copy and paste following cases to the array above.
         for item in items {
             switch item {
                 case .One, .Two, .Three: break
@@ -55,10 +55,10 @@ extension Number: DOTLabelable {
 
 extension Operation: DOTLabelable {
     static var DOTLabelableItems: [Operation] {
-        var items: [Operation] = [.Increment, .Decrement]
+        let items: [Operation] = [.Increment, .Decrement]
 
         // Trick: switch on all cases and get an error if you miss any.
-        // If you do, add it to the line above
+        // Copy and paste following cases to the array above.
         for item in items {
             switch item {
                 case .Increment, .Decrement: break

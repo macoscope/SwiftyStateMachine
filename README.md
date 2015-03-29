@@ -1,8 +1,8 @@
 SwiftyStateMachine
 ==================
 
-A Swift µframework for creating state machines, designed for clarity and
-maintainability.  Can create diagrams:
+A Swift µframework for creating [finite-state machines][FSM], designed
+for clarity and maintainability.  Can create diagrams:
 
 ![example digraph](example-digraph.png)
 
@@ -11,6 +11,7 @@ maintainability.  Can create diagrams:
 - Published under the [MIT License](LICENSE)
 - [Carthage][] compatible
 
+  [FSM]: http://en.wikipedia.org/wiki/Finite-state_machine
   [Semantic Versioning]: http://semver.org/
   [Carthage]: https://github.com/Carthage/Carthage
 
@@ -132,16 +133,17 @@ pair, i.e. given event should be ignored in given state.  When the
 tuple is non-`nil`, it specifies the new state that machine should
 transition to and a block that should be called after the transition.
 The transition block is optional.  It gets passed a `Subject` object
-as an argument, which we ignored in this example.
+as an argument, which we ignored in this example by using `_`.
 
 Now, let's create a machine based on the schema and test it:
 
 ```swift
-// use () as subject because subject type is Void
+// we use () as subject because subject type is Void
 var machine = StateMachine(schema: schema, subject: ())
 
-if machine.state == .One { println("one") }  // prints "one"
 machine.handleEvent(.Decrement)  // nothing happens
+if machine.state == .One { println("one") }  // prints "one"
+
 machine.handleEvent(.Increment)  // prints "1 → 2"
 if machine.state == .Two { println("two") }  // prints "two"
 ```
@@ -220,7 +222,8 @@ static var DOTLabelableItems: [Number] {
 ```
 
 When our types conform to `DOTLabelable`, we can define our structure as
-before, but using `GraphableStateMachineSchema`, and print the diagram:
+before, but using `GraphableStateMachineSchema`.  Then we can print the
+diagram:
 
 ```swift
 let schema = GraphableStateMachineSchema// ...

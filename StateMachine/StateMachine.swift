@@ -22,6 +22,8 @@ public protocol StateMachineSchemaType {
 
     var initialState: State { get }
     var transitionLogic: (State, Event) -> (State, (Subject -> ())?)? { get }
+
+    init(initialState: State, transitionLogic: (State, Event) -> (State, (Subject -> ())?)?)
 }
 
 

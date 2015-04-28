@@ -7,7 +7,7 @@ for clarity and maintainability.  Can create diagrams:
 ![example digraph](example-digraph.png)
 
 - Version 0.1.0 (following [Semantic Versioning][])
-- Developed and tested under Xcode 6.3β4 (Swift 1.2)
+- Developed and tested under Swift 1.2 (Xcode 6.3)
 - Published under the [MIT License](LICENSE)
 - [Carthage][] compatible
 

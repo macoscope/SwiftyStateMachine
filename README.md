@@ -43,7 +43,10 @@ Documentation
 -------------
 
 API documentation is in the source.  See [Example](#example) for code
-samples with an explanation.
+samples with an explanation.  For more introduction, see [the post on
+the Macoscope blog][blog].
+
+  [blog]: http://macoscope.com/blog/swifty-state-machine/
 
 
 Installation

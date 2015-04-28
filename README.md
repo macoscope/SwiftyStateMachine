@@ -53,7 +53,7 @@ SwiftyStateMachine is a framework — you can build it and drag it to your
 project.  We recommend using [Carthage][Carthage add]:
 
     # Cartfile
-    github "macoscope/SwiftyStateMachine" == 0.1
+    github "macoscope/SwiftyStateMachine" == 0.1.0
 
   [Carthage add]: https://github.com/Carthage/Carthage#adding-frameworks-to-an-application
 

@@ -12,11 +12,11 @@ import Foundation
 ///   [1]: http://en.wikipedia.org/wiki/DOT_%28graph_description_language%29
 public protocol DOTLabelable {
 
-    /// A textual representation of `self`, suitable for creating a label
+    /// A textual representation of `self`, suitable for creating labels
     /// in a graph.
     var DOTLabel: String { get }
 
-    /// Array of items of given type (states or events) used in a graph.
+    /// An array of items of a given type (states or events) used in a graph.
     static var DOTLabelableItems: [Self] { get }
 }
 
@@ -24,11 +24,12 @@ public protocol DOTLabelable {
 /// A state machine schema with a graph of the state machine in the DOT graph
 /// description language [1].
 ///
-/// Requires `State` and `Event` types to conform to `DOTLabelable` protocol.
+/// Requires `State` and `Event` types to conform to the `DOTLabelable`
+/// protocol.
 ///
-/// Textual representation of a graph is accessible by `DOTDigraph` property.
-/// On iOS, it can be saved to disk with `saveDOTDigraphIfRunningInSimulator`
-/// method.
+/// The textual representation of a graph is accessible via the
+/// `DOTDigraph` property.  On iOS, it can be saved to disk with
+/// the `saveDOTDigraphIfRunningInSimulator` method.
 ///
 /// For more information about state machine schemas, see
 /// `StateMachineSchemaType` documentation.
@@ -50,28 +51,30 @@ public struct GraphableStateMachineSchema<A: DOTLabelable, B: DOTLabelable, C>: 
     }
 
     #if os(OSX)
-    // TODO: Figure out how detect scenario "I'm running my Mac app from Xcode".
+    // TODO: Figure out how to detect the "I'm running my Mac app from Xcode"
+    // scenario.
     //
-    // Verify if [`AmIBeingDebugged`][1] can be used here.  In particular, figure out
-    // if this means that an app will be rejected during App Review:
+    // Verify if [`AmIBeingDebugged`][1] can be used here.  In particular,
+    // figure out if this means that an app will be rejected during App Review:
     //
-    // > Important: Because the definition of the kinfo_proc structure (in <sys/sysctl.h>)
-    // > is conditionalized by __APPLE_API_UNSTABLE, you should restrict use of the above
-    // > code to the debug build of your program.
+    // > Important: Because the definition of the kinfo_proc structure
+    // > (in <sys/sysctl.h>) is conditionalized by __APPLE_API_UNSTABLE, you
+    // > should restrict use of the above code to the debug build of your
+    // > program.
     //
     //   [1]: https://developer.apple.com/library/mac/qa/qa1361/_index.html
     #else
-    /// Save textual graph representation from `DOTDigraph` property to a file,
-    /// preferably in a project directory, for documentation purposes.  Works
-    /// only when running in a simulator.
+    /// Save the textual graph representation from the `DOTDigraph` property
+    /// to a file, preferably in a project directory, for documentation
+    /// purposes.  Works only when running in a simulator.
     ///
-    /// Filepath of the graph file is relative to the filepath of the calling
-    /// file, e.g. if you call this method from a file called
+    /// The filepath of the graph file is relative to the filepath of the
+    /// calling file, e.g. if you call this method from a file called
     /// `MyProject/InboxViewController.swift` and pass `"Inbox.dot"` as
-    /// a filepath, diagram will be saved as `MyProject/Inbox.dot`.
+    /// a filepath, the diagram will be saved as `MyProject/Inbox.dot`.
     ///
-    /// Files in DOT format [1] can be viewed in different applications, e.g.
-    /// Graphviz [2].
+    /// Files in the DOT format [1] can be viewed in different applications,
+    /// e.g. Graphviz [2].
     ///
     ///   [1]: https://developer.apple.com/library/mac/qa/qa1361/_index.html
     ///   [2]: http://www.graphviz.org/

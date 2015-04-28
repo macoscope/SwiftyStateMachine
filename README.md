@@ -7,7 +7,7 @@ for clarity and maintainability.  Can create diagrams:
 ![example digraph](example-digraph.png)
 
 - Version 0.1.0 (following [Semantic Versioning][])
-- Developed and tested under Xcode 6.3β4 (Swift 1.2)
+- Developed and tested under Swift 1.2 (Xcode 6.3)
 - Published under the [MIT License](LICENSE)
 - [Carthage][] compatible
 
@@ -31,12 +31,12 @@ Features
 --------
 
 - Diagrams that can be automatically saved in your repo each time you run
-  the app in a simulator
+  the app in the simulator
 - Immutable, reusable state machine schemas
 - Readable state and event names — no long prefixes
-- Type safety: compile time errors when forgetting about a state or an
-  event when defining the schema, when passing an event from a different
-  state machine, etc.
+- Type safety: errors will appear at compilation when a state or an event
+  are absent from  schema, when passing an event from a different state
+  machine, etc.
 
 
 Documentation
@@ -61,7 +61,7 @@ project.  We recommend using [Carthage][Carthage add]:
 Example
 -------
 
-In this example we're going to implement a simple state machine you've
+In this example, we're going to implement a simple state machine you've
 seen at the beginning of this file:
 
 ![example digraph](example-digraph.png)
@@ -78,14 +78,14 @@ enum Operation {
 }
 ```
 
-Next we have to specify the state machine layout.  In SwiftyStateMachine
-it means creating a schema.  Schemas are immutable `struct`s that can be
+Next, we have to specify the state machine layout.  In SwiftyStateMachine,
+that means creating a schema.  Schemas are immutable `struct`s that can be
 used by many `StateMachine` instances.  They indicate the initial state
-and describe transition logic — how states are connected via events and
+and describe transition logic, i.e. how states are connected via events and
 what code is executed during state transitions.
 
 Schemas incorporate three generic types: `State` and `Event`, which we
-defined above, and `Subject`, which represents an object associated with
+defined above, and `Subject` which represents an object associated with
 a state machine.  To keep things simple we won't use subject right now,
 so we'll specify its type as `Void`:
 
@@ -114,10 +114,10 @@ let schema = StateMachineSchema<Number, Operation, Void>(initialState: .One) { (
 }
 ```
 
-You've probably expected nested `switch` statements after defining two
+You probably expected nested `switch` statements after defining two
 `enum`s. :wink:
 
-To understand the above snippet, it's helpful to look at initializer's
+To understand the above snippet, it's helpful to look at the initializer's
 signature:
 
 ```swift
@@ -128,9 +128,9 @@ init(initialState: State,
 We specify transition logic as a block.  It accepts two arguments: the
 current state and the event being handled.  It returns an optional tuple
 of a new state and an optional transition block.  When the tuple is
-`nil`, it indicates that there is no transition for given state-event
-pair, i.e. given event should be ignored in given state.  When the
-tuple is non-`nil`, it specifies the new state that machine should
+`nil`, it indicates that there is no transition for a given state-event
+pair, i.e. a given event should be ignored in a given state.  When the
+tuple is non-`nil`, it specifies the new state that the machine should
 transition to and a block that should be called after the transition.
 The transition block is optional.  It gets passed a `Subject` object
 as an argument, which we ignored in this example by using `_`.
@@ -161,11 +161,11 @@ machine.didTransitionCallback = { (oldState, event, newState) in
 
 OK, what about the diagram?  SwiftyStateMachine can create diagrams in
 the [DOT][] graph description language.  To create a diagram, we have
-to use `GraphableStateMachineSchema`, which has the same initializer as
+to use `GraphableStateMachineSchema` which has the same initializer as
 the regular `StateMachineSchema`, but requires state and event types to
 conform to the [`DOTLabelable`][DOTLabelable] protocol.  This protocol
 makes sure that all elements have nice readable labels and that they are
-present on the graph at all (there's no way to automatically find all
+present on the graph (there's no way to automatically find all
 `enum` cases):
 
   [DOT]: http://en.wikipedia.org/wiki/DOT_%28graph_description_language%29
@@ -200,7 +200,7 @@ extension Operation: DOTLabelable {
 }
 ```
 
-Notice that above code doesn't use a `switch` statement in
+Notice that the above code doesn't use a `switch` statement in the
 `DOTLabelableItems` implementation.  We won't get a compiler error after
 adding a new case to an `enum`.  To get some help from the compiler in
 such situations, we can use the following trick:
@@ -210,7 +210,7 @@ static var DOTLabelableItems: [Number] {
     let items: [Number] = [.One, .Two, .Three]
 
     // Trick: switch on all cases and get an error if you miss any.
-    // Copy and paste following cases to the array above.
+    // Copy and paste the following cases to the array above.
     for item in items {
         switch item {
             case .One, .Two, .Three: break
@@ -222,8 +222,8 @@ static var DOTLabelableItems: [Number] {
 ```
 
 When our types conform to `DOTLabelable`, we can define our structure as
-before, but using `GraphableStateMachineSchema`.  Then we can print the
-diagram:
+before, but this time using `GraphableStateMachineSchema`.  Then we can
+print the diagram:
 
 ```swift
 let schema = GraphableStateMachineSchema// ...
@@ -249,7 +249,7 @@ digraph {
 ```
 
 [On iOS][] we can even have the graph file saved in the repo each time
-we run the app in a simulator:
+we run the app in the simulator:
 
   [On iOS]: https://github.com/macoscope/SwiftyStateMachine/commit/9b4963c26a934915b56d5023f84e42ff128f6a1d
 
@@ -257,7 +257,7 @@ we run the app in a simulator:
 schema.saveDOTDigraphIfRunningInSimulator(filepathRelativeToCurrentFile: "123.dot")
 ```
 
-DOT files can be viewed by a number of applications, including free
+DOT files can be viewed by a number of applications, including the free
 [Graphviz][].  If you use [Homebrew][], you can install Graphviz with
 the following commands:
 
@@ -268,7 +268,7 @@ the following commands:
   [Graphviz]: http://www.graphviz.org/
   [Homebrew]: http://brew.sh/
 
-Graphviz comes with a `dot` command, which can be used to generate graph
+Graphviz comes with a `dot` command which can be used to generate graph
 images without launching the GUI app:
 
     dot -Tpng 123.dot > 123.png
@@ -317,18 +317,18 @@ class MyViewController: UIViewController {
 Development
 -----------
 
-If you see a way to improve the project, please leave a comment, open an
-[issue][] or start a [pull request][].  It's better to begin
-with an issue rather than a pull request, though, because we might disagree
-whether proposed change is an actual improvement. :wink:
+If you see a way to improve the project, please leave a comment, open
+an [issue][] or start a [pull request][].  It's better to begin with
+an issue rather than a pull request, though, because we might disagree
+whether the proposed change is an actual improvement. :wink:
 
 To run tests, install [Carthage][] and run `carthage update` to download
 and build test frameworks.
 
-When introducing changes, please try to conform to the style present
-in the project — both with respect to code formatting and commit
-messages.  We recommend following [GitHub Swift Style Guide][] with one
-important difference: 4 spaces instead of tabs.
+When introducing changes, please try to conform to the style present in
+the project — both with respect to code formatting and commit messages.
+We recommend following [GitHub Swift Style Guide][] with one important
+difference: 4 spaces instead of tabs.
 
 Thanks! :v:
 

@@ -59,7 +59,7 @@ public struct StateMachineSchema<A, B, C>: StateMachineSchemaType {
 /// block.  It is called after a transition with three arguments:
 /// the state before the transition, the event causing the transition,
 /// and the state after the transition.
-public struct StateMachine<T: StateMachineSchemaType> {
+public final class StateMachine<T: StateMachineSchemaType> {
     /// The current state of the machine.
     public var state: T.State
 
@@ -86,7 +86,7 @@ public struct StateMachine<T: StateMachineSchemaType> {
     /// machine.  If the transition logic of the schema defines a transition
     /// for current state and given event, the state is changed, the optional
     /// transition block is executed, and `didTransitionCallback` is called.
-    public mutating func handleEvent(event: T.Event) {
+    public func handleEvent(event: T.Event) {
         if let (newState, transition) = schema.transitionLogic(state, event) {
             let oldState = state
             state = newState

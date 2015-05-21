@@ -260,7 +260,7 @@ we run the app in the simulator:
 schema.saveDOTDigraphIfRunningInSimulator(filepathRelativeToCurrentFile: "123.dot")
 ```
 
-DOT files can be viewed by a number of applications, including the free
+[DOT][] files can be viewed by a number of applications, including the free
 [Graphviz][].  If you use [Homebrew][], you can install Graphviz with
 the following commands:
 

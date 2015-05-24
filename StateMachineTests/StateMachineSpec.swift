@@ -74,23 +74,50 @@ extension Operation: DOTLabelable {
 }
 
 
-private enum SimpleState { case S1, S2 }
+private enum SimpleState: Printable {
+    case S1
+    case S2
+
+    var description: String {
+        switch self {
+            case S1: return "S1"
+            case S2: return "S2"
+        }
+    }
+}
+
 private enum SimpleEvent { case E }
 
-private func createSimpleMachine(forward: (() -> ())? = nil, backward: (() -> ())? = nil) -> StateMachine<StateMachineSchema<SimpleState, SimpleEvent, Void>> {
-    let schema = StateMachineSchema<SimpleState, SimpleEvent, Void>(initialState: .S1) { (state, event) in
+private func createSimpleSchema<T>(forward: (T -> ())? = nil, backward: (T -> ())? = nil) -> StateMachineSchema<SimpleState, SimpleEvent, T> {
+    return StateMachineSchema(initialState: .S1) { (state, event) in
         switch state {
             case .S1: switch event {
-                case .E: return (.S2, { _ in forward?() })
+                case .E: return (.S2, { forward?($0) })
             }
 
             case .S2: switch event {
-                case .E: return (.S1, { _ in backward?() })
+                case .E: return (.S1, { backward?($0) })
             }
         }
     }
+}
 
-    return StateMachine(schema: schema, subject: ())
+private func createSimpleMachine(forward: (() -> ())? = nil, backward: (() -> ())? = nil) -> StateMachine<StateMachineSchema<SimpleState, SimpleEvent, Void>> {
+    return StateMachine(schema: createSimpleSchema(forward: { _ in forward?() }, backward: { _ in backward?() }), subject: ())
+}
+
+
+private class Subject {
+    typealias SchemaType = StateMachineSchema<SimpleState, SimpleEvent, Subject>
+
+    let schema: SchemaType
+    lazy var machine: StateMachine<SchemaType> = { [unowned self] in
+        StateMachine(schema: self.schema, subject: self)
+    }()
+
+    init(schema: SchemaType) {
+        self.schema = schema
+    }
 }
 
 
@@ -174,6 +201,15 @@ class StateMachineSpec: QuickSpec {
 
                 machine.handleEvent(.E)
                 expect(callbackWasCalledCorrectly) == true
+            }
+
+            it("can trigger transition from within transition") {
+                let subject = Subject(schema: createSimpleSchema(forward: {
+                    $0.machine.handleEvent(.E)
+                }))
+
+                subject.machine.handleEvent(.E)
+                expect(subject.machine.state) == SimpleState.S1
             }
 
         }

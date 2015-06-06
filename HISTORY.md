@@ -1,6 +1,7 @@
 ## [0.2.0][] • 2015-06-06
 
 - #2: Changed `StateMachine` into a class (was a struct).
+- #5: Lowered the minimum deployment targets to iOS 8.0 and OS X 10.9.
 
 
 ## [0.1.0][] • 2015-04-29

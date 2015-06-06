@@ -7,8 +7,8 @@ Pod::Spec.new do |s|
   s.author             = { "Maciej Konieczny" => "hello@narf.pl" }
   s.social_media_url   = "https://twitter.com/narfdotpl"
   s.ios.deployment_target = "8.0"
-  s.osx.deployment_target = "10.10"
+  s.osx.deployment_target = "10.9"
   s.source       = { :git => "https://github.com/macoscope/SwiftyStateMachine.git", :tag => "#{s.version}" }
-  s.source_files  = "StateMachine/*.swift"
+  s.source_files = "StateMachine/*.swift"
   s.requires_arc = true
 end

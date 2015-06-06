@@ -6,7 +6,7 @@ for clarity and maintainability.  Can create diagrams:
 
 ![example digraph](example-digraph.png)
 
-- Version 0.1.0 (following [Semantic Versioning][])
+- Version 0.2.0 (following [Semantic Versioning][])
 - Developed and tested under Swift 1.2 (Xcode 6.3)
 - Published under the [MIT License](LICENSE)
 - [Carthage][] compatible
@@ -58,7 +58,7 @@ SwiftyStateMachine is a framework — you can build it and drag it to your
 project.  We recommend using [Carthage][Carthage add]:
 
     # Cartfile
-    github "macoscope/SwiftyStateMachine" == 0.1.0
+    github "macoscope/SwiftyStateMachine" == 0.2.0
 
   [Carthage add]: https://github.com/Carthage/Carthage#adding-frameworks-to-an-application
 
@@ -66,7 +66,7 @@ project.  We recommend using [Carthage][Carthage add]:
 You can also use [CocoaPods][]:
 
     # Podfile
-    pod 'SwiftyStateMachine', '0.1.0'
+    pod 'SwiftyStateMachine', '0.2.0'
 
 
 Example

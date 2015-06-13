@@ -81,7 +81,7 @@ public struct GraphableStateMachineSchema<A: DOTLabelable, B: DOTLabelable, C>: 
     public func saveDOTDigraphIfRunningInSimulator(filepathRelativeToCurrentFile filepathRelativeToCurrentFile: String, file: String = __FILE__) {
         if TARGET_IPHONE_SIMULATOR == 1 {
             let filepath = file.stringByDeletingLastPathComponent.stringByAppendingPathComponent(filepathRelativeToCurrentFile)
-            DOTDigraph.writeToFile(filepath, atomically: true, encoding: NSUTF8StringEncoding, error: nil)
+            try! DOTDigraph.writeToFile(filepath, atomically: true, encoding: NSUTF8StringEncoding)
         }
     }
     #endif

@@ -88,7 +88,7 @@ private enum SimpleState: CustomStringConvertible {
 
 private enum SimpleEvent { case E }
 
-private func createSimpleSchema<T>(forward: (T -> ())? = nil, backward: (T -> ())? = nil) -> StateMachineSchema<SimpleState, SimpleEvent, T> {
+private func createSimpleSchema<T>(forward forward: (T -> ())? = nil, backward: (T -> ())? = nil) -> StateMachineSchema<SimpleState, SimpleEvent, T> {
     return StateMachineSchema(initialState: .S1) { (state, event) in
         switch state {
             case .S1: switch event {
@@ -102,7 +102,7 @@ private func createSimpleSchema<T>(forward: (T -> ())? = nil, backward: (T -> ()
     }
 }
 
-private func createSimpleMachine(forward: (() -> ())? = nil, backward: (() -> ())? = nil) -> StateMachine<StateMachineSchema<SimpleState, SimpleEvent, Void>> {
+private func createSimpleMachine(forward forward: (() -> ())? = nil, backward: (() -> ())? = nil) -> StateMachine<StateMachineSchema<SimpleState, SimpleEvent, Void>> {
     return StateMachine(schema: createSimpleSchema(forward: { _ in forward?() }, backward: { _ in backward?() }), subject: ())
 }
 

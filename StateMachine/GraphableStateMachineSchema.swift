@@ -78,7 +78,7 @@ public struct GraphableStateMachineSchema<A: DOTLabelable, B: DOTLabelable, C>: 
     ///
     ///   [1]: https://developer.apple.com/library/mac/qa/qa1361/_index.html
     ///   [2]: http://www.graphviz.org/
-    public func saveDOTDigraphIfRunningInSimulator(#filepathRelativeToCurrentFile: String, file: String = __FILE__) {
+    public func saveDOTDigraphIfRunningInSimulator(filepathRelativeToCurrentFile filepathRelativeToCurrentFile: String, file: String = __FILE__) {
         if TARGET_IPHONE_SIMULATOR == 1 {
             let filepath = file.stringByDeletingLastPathComponent.stringByAppendingPathComponent(filepathRelativeToCurrentFile)
             DOTDigraph.writeToFile(filepath, atomically: true, encoding: NSUTF8StringEncoding, error: nil)
@@ -91,7 +91,7 @@ public struct GraphableStateMachineSchema<A: DOTLabelable, B: DOTLabelable, C>: 
         let events = Event.DOTLabelableItems
 
         var stateIndexesByLabel: [String: Int] = [:]
-        for (i, state) in enumerate(states) {
+        for (i, state) in states.enumerate() {
             stateIndexesByLabel[label(state)] = i + 1
         }
 

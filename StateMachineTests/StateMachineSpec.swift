@@ -9,7 +9,7 @@ private struct NumberKeeper {
 }
 
 
-private enum Number: DebugPrintable {
+private enum Number: CustomDebugStringConvertible {
     case One, Two, Three
 
     var debugDescription: String {
@@ -74,7 +74,7 @@ extension Operation: DOTLabelable {
 }
 
 
-private enum SimpleState: Printable {
+private enum SimpleState: CustomStringConvertible {
     case S1
     case S2
 

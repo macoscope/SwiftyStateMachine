@@ -240,17 +240,6 @@ class StateMachineSpec: QuickSpec {
             }
 
             it("escapes doubles quotes in labels") {
-                enum State: DOTLabelable {
-                    case S
-                    var DOTLabel: String { return "An \"awesome\" state" }
-                    static var DOTLabelableItems: [State] { return [.S] }
-                }
-
-                enum Event: DOTLabelable {
-                    case E
-                    var DOTLabel: String { return "An \"awesome\" event" }
-                    static var DOTLabelableItems: [Event] { return [.E] }
-                }
 
                 let schema = GraphableStateMachineSchema<State, Event, Void>(initialState: .S) { _ in
                     (.S, nil)
@@ -261,4 +250,17 @@ class StateMachineSpec: QuickSpec {
 
         }
     }
+}
+
+
+enum State: DOTLabelable {
+    case S
+    var DOTLabel: String { return "An \"awesome\" state" }
+    static var DOTLabelableItems: [State] { return [.S] }
+}
+
+enum Event: DOTLabelable {
+    case E
+    var DOTLabel: String { return "An \"awesome\" event" }
+    static var DOTLabelableItems: [Event] { return [.E] }
 }

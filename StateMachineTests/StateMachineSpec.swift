@@ -239,7 +239,7 @@ class StateMachineSpec: QuickSpec {
                 expect(schema.DOTDigraph) == "digraph {\n    graph [rankdir=LR]\n\n    0 [label=\"\", shape=plaintext]\n    0 -> 1 [label=\"START\"]\n\n    1 [label=\"One\"]\n    2 [label=\"Two\"]\n    3 [label=\"Three\"]\n\n    1 -> 2 [label=\"Increment\"]\n    2 -> 3 [label=\"Increment\"]\n    2 -> 1 [label=\"Decrement\"]\n    3 -> 2 [label=\"Decrement\"]\n}"
             }
 
-            it("escapes doubles quotes in labels") {
+            it("escapes double quotes in labels") {
 
                 let schema = GraphableStateMachineSchema<State, Event, Void>(initialState: .S) { _ in
                     (.S, nil)

@@ -36,9 +36,9 @@ public protocol DOTLabelable {
 ///
 ///   [1]: http://en.wikipedia.org/wiki/DOT_%28graph_description_language%29
 public struct GraphableStateMachineSchema<A: DOTLabelable, B: DOTLabelable, C>: StateMachineSchemaType {
-    typealias State = A
-    typealias Event = B
-    typealias Subject = C
+    public typealias State = A
+    public typealias Event = B
+    public typealias Subject = C
 
     public let initialState: State
     public let transitionLogic: (State, Event) -> (State, (Subject -> ())?)?
@@ -80,7 +80,7 @@ public struct GraphableStateMachineSchema<A: DOTLabelable, B: DOTLabelable, C>: 
     ///   [2]: http://www.graphviz.org/
     public func saveDOTDigraphIfRunningInSimulator(filepathRelativeToCurrentFile filepathRelativeToCurrentFile: String, file: String = __FILE__) {
         if TARGET_IPHONE_SIMULATOR == 1 {
-            let filepath = file.stringByDeletingLastPathComponent.stringByAppendingPathComponent(filepathRelativeToCurrentFile)
+            let filepath = ((file as NSString).stringByDeletingLastPathComponent as NSString).stringByAppendingPathComponent(filepathRelativeToCurrentFile)
             try! DOTDigraph.writeToFile(filepath, atomically: true, encoding: NSUTF8StringEncoding)
         }
     }

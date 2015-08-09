@@ -33,9 +33,9 @@ public protocol StateMachineSchemaType {
 /// A state machine schema conforming to the `StateMachineSchemaType`
 /// protocol.  See protocol documentation for more information.
 public struct StateMachineSchema<A, B, C>: StateMachineSchemaType {
-    typealias State = A
-    typealias Event = B
-    typealias Subject = C
+    public typealias State = A
+    public typealias Event = B
+    public typealias Subject = C
 
     public let initialState: State
     public let transitionLogic: (State, Event) -> (State, (Subject -> ())?)?

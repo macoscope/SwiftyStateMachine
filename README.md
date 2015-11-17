@@ -181,7 +181,7 @@ machine.didTransitionCallback = { (oldState, event, newState) in
 ```
 
 OK, what about the diagram?  SwiftyStateMachine can create diagrams in
-the [DOT][] graph description language.  To create a diagram, we have
+the [DOT graph description language][DOT].  To create a diagram, we have
 to use `GraphableStateMachineSchema` which has the same initializer as
 the regular `StateMachineSchema`, but requires state and event types to
 conform to the [`DOTLabelable`][DOTLabelable] protocol.  This protocol
@@ -198,6 +198,12 @@ extension Number: DOTLabelable {
         return [.One, .Two, .Three]
     }
 
+    // Implementing this property in not required but we show it here for the
+    // sake of completeness.  You can use it to customize labels on the graph.
+    // In the following implementation we are basically returning `"\(self)"`.
+    // In fact, this protocol already has a default implementation that does
+    // just that.  Because of this, we will skip `DOTLabel` when implementing
+    // `DOTLabelable` extension of `Operation`.
     var DOTLabel: String {
         switch self {
             case .One: return "One"
@@ -210,13 +216,6 @@ extension Number: DOTLabelable {
 extension Operation: DOTLabelable {
     static var DOTLabelableItems: [Operation] {
         return [.Increment, .Decrement]
-    }
-
-    var DOTLabel: String {
-        switch self {
-            case .Increment: return "Increment"
-            case .Decrement: return "Decrement"
-        }
     }
 }
 ```

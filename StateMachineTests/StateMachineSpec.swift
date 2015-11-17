@@ -9,27 +9,12 @@ private struct NumberKeeper {
 }
 
 
-private enum Number: CustomDebugStringConvertible {
+private enum Number {
     case One, Two, Three
-
-    var debugDescription: String {
-        switch self {
-            case .One: return "One"
-            case .Two: return "Two"
-            case .Three: return "Three"
-        }
-    }
 }
 
 private enum Operation {
     case Increment, Decrement
-
-    var debugDescription: String {
-        switch self {
-            case .Increment: return "Increment"
-            case .Decrement: return "Decrement"
-        }
-    }
 }
 
 
@@ -47,10 +32,6 @@ extension Number: DOTLabelable {
 
         return items
     }
-
-    var DOTLabel: String {
-        return debugDescription
-    }
 }
 
 extension Operation: DOTLabelable {
@@ -67,25 +48,10 @@ extension Operation: DOTLabelable {
 
         return items
     }
-
-    var DOTLabel: String {
-        return debugDescription
-    }
 }
 
 
-private enum SimpleState: CustomStringConvertible {
-    case S1
-    case S2
-
-    var description: String {
-        switch self {
-            case S1: return "S1"
-            case S2: return "S2"
-        }
-    }
-}
-
+private enum SimpleState { case S1, S2 }
 private enum SimpleEvent { case E }
 
 private func createSimpleSchema<T>(forward forward: (T -> ())? = nil, backward: (T -> ())? = nil) -> StateMachineSchema<SimpleState, SimpleEvent, T> {

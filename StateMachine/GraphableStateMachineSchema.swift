@@ -13,11 +13,17 @@ import Foundation
 public protocol DOTLabelable {
 
     /// A textual representation of `self`, suitable for creating labels
-    /// in a graph.
+    /// in a graph.  If not provided, default string representation is used.
     var DOTLabel: String { get }
 
     /// An array of items of a given type (states or events) used in a graph.
     static var DOTLabelableItems: [Self] { get }
+}
+
+public extension DOTLabelable {
+    var DOTLabel: String {
+        return "\(self)"
+    }
 }
 
 

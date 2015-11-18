@@ -1,3 +1,8 @@
+*This document describes an unreleased, work-in-progress version of the
+framework.  [Visit this link](https://github.com/macoscope/SwiftyStateMachine/tree/0.2.0#swiftystatemachine)
+to go back in time and view the latest released version.*
+
+
 SwiftyStateMachine
 ==================
 
@@ -6,8 +11,8 @@ for clarity and maintainability.  Can create diagrams:
 
 ![example digraph](example-digraph.png)
 
-- Version 0.2.0 (following [Semantic Versioning][])
-- Developed and tested under Swift 1.2 (Xcode 6.3)
+- Version 0.3.0-work-in-progress (following [Semantic Versioning][])
+- Developed and tested under Swift 2.1 (Xcode 7.1)
 - Published under the [MIT License](LICENSE)
 - [Carthage][] compatible
 - [CocoaPods][] compatible
@@ -55,10 +60,15 @@ Installation
 ------------
 
 SwiftyStateMachine is a framework — you can build it and drag it to your
-project.  We recommend using [Carthage][Carthage add]:
+project.  We provide built frameworks for iOS and OS X in ZIP files on
+our [Releases](https://github.com/macoscope/SwiftyStateMachine/releases)
+page.
+
+If you want to automate the installation and future updates, we recommend
+using [Carthage][Carthage add]:
 
     # Cartfile
-    github "macoscope/SwiftyStateMachine" == 0.2.0
+    github "macoscope/SwiftyStateMachine" == 0.3.0
 
   [Carthage add]: https://github.com/Carthage/Carthage#adding-frameworks-to-an-application
 
@@ -66,7 +76,7 @@ project.  We recommend using [Carthage][Carthage add]:
 You can also use [CocoaPods][]:
 
     # Podfile
-    pod 'SwiftyStateMachine', '0.2.0'
+    pod 'SwiftyStateMachine', '0.3.0'
 
 
 Example
@@ -107,14 +117,14 @@ let schema = StateMachineSchema<Number, Operation, Void>(initialState: .One) { (
     switch state {
         case .One: switch event {
             case .Decrement: return nil
-            case .Increment: return (.Two, { _ in println("1 → 2") })
+            case .Increment: return (.Two, { _ in print("1 → 2") })
             // we used nil to ignore the event
             // and _ to ignore the subject
         }
 
         case .Two: switch event {
-            case .Decrement: return (.One, { _ in println("2 → 1") })
-            case .Increment: return (.Three, { _ in println("2 → 3") })
+            case .Decrement: return (.One, { _ in print("2 → 1") })
+            case .Increment: return (.Three, { _ in print("2 → 3") })
         }
 
         case .Three: switch event {
@@ -153,10 +163,10 @@ Now, let's create a machine based on the schema and test it:
 var machine = StateMachine(schema: schema, subject: ())
 
 machine.handleEvent(.Decrement)  // nothing happens
-if machine.state == .One { println("one") }  // prints "one"
+if machine.state == .One { print("one") }  // prints "one"
 
 machine.handleEvent(.Increment)  // prints "1 → 2"
-if machine.state == .Two { println("two") }  // prints "two"
+if machine.state == .Two { print("two") }  // prints "two"
 ```
 
 Cool.  We can also get notified about transitions by providing a
@@ -166,12 +176,12 @@ transition, and the state after the transition:
 
 ```swift
 machine.didTransitionCallback = { (oldState, event, newState) in
-    println("changed state!")
+    print("changed state!")
 }
 ```
 
 OK, what about the diagram?  SwiftyStateMachine can create diagrams in
-the [DOT][] graph description language.  To create a diagram, we have
+the [DOT graph description language][DOT].  To create a diagram, we have
 to use `GraphableStateMachineSchema` which has the same initializer as
 the regular `StateMachineSchema`, but requires state and event types to
 conform to the [`DOTLabelable`][DOTLabelable] protocol.  This protocol
@@ -188,6 +198,12 @@ extension Number: DOTLabelable {
         return [.One, .Two, .Three]
     }
 
+    // Implementing this property in not required but we show it here for the
+    // sake of completeness.  You can use it to customize labels on the graph.
+    // In the following implementation we are basically returning `"\(self)"`.
+    // In fact, this protocol already has a default implementation that does
+    // just that.  Because of this, we will skip `DOTLabel` when implementing
+    // `DOTLabelable` extension of `Operation`.
     var DOTLabel: String {
         switch self {
             case .One: return "One"
@@ -201,34 +217,6 @@ extension Operation: DOTLabelable {
     static var DOTLabelableItems: [Operation] {
         return [.Increment, .Decrement]
     }
-
-    var DOTLabel: String {
-        switch self {
-            case .Increment: return "Increment"
-            case .Decrement: return "Decrement"
-        }
-    }
-}
-```
-
-Notice that the above code doesn't use a `switch` statement in the
-`DOTLabelableItems` implementation.  We won't get a compiler error after
-adding a new case to an `enum`.  To get some help from the compiler in
-such situations, we can use the following trick:
-
-```swift
-static var DOTLabelableItems: [Number] {
-    let items: [Number] = [.One, .Two, .Three]
-
-    // Trick: switch on all cases and get an error if you miss any.
-    // Copy and paste the following cases to the array above.
-    for item in items {
-        switch item {
-            case .One, .Two, .Three: break
-        }
-    }
-
-    return items
 }
 ```
 
@@ -238,7 +226,7 @@ print the diagram:
 
 ```swift
 let schema = GraphableStateMachineSchema// ...
-println(schema.DOTDigraph)
+print(schema.DOTDigraph)
 ```
 
 ```dot
@@ -265,7 +253,7 @@ we run the app in the simulator:
   [On iOS]: https://github.com/macoscope/SwiftyStateMachine/commit/9b4963c26a934915b56d5023f84e42ff128f6a1d
 
 ```swift
-schema.saveDOTDigraphIfRunningInSimulator(filepathRelativeToCurrentFile: "123.dot")
+try schema.saveDOTDigraphIfRunningInSimulator(filepathRelativeToCurrentFile: "123.dot")
 ```
 
 [DOT][] files can be viewed by a number of applications, including the free

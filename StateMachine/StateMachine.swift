@@ -74,12 +74,12 @@ public final class StateMachine<T: StateMachineSchemaType> {
 
     /// Object associated with the state machine.  Can be accessed in
     /// transition blocks.
-    private let subject: T.Subject
+    private let subjectGetter: () -> T.Subject?
 
-    public init(schema: T, subject: T.Subject) {
+    private init(schema: T, subjectGetter: () -> T.Subject?) {
         self.state = schema.initialState
         self.schema = schema
-        self.subject = subject
+        self.subjectGetter = subjectGetter
     }
 
     /// A method for triggering transitions and changing the state of the
@@ -87,11 +87,25 @@ public final class StateMachine<T: StateMachineSchemaType> {
     /// for current state and given event, the state is changed, the optional
     /// transition block is executed, and `didTransitionCallback` is called.
     public func handleEvent(event: T.Event) {
-        if let (newState, transition) = schema.transitionLogic(state, event) {
-            let oldState = state
-            state = newState
-            transition?(subject)
-            didTransitionCallback?(oldState, event, newState)
+        if let
+            subject = subjectGetter(),
+            (newState, transition) = schema.transitionLogic(state, event) {
+                let oldState = state
+                state = newState
+                transition?(subject)
+                didTransitionCallback?(oldState, event, newState)
         }
+    }
+}
+
+extension StateMachine where T.Subject : AnyObject {
+    convenience init(schema: T, subject: T.Subject) {
+        self.init(schema: schema, subjectGetter: { [weak subject] in subject })
+    }
+}
+
+extension StateMachine {
+    convenience init(schema: T, subject: T.Subject) {
+        self.init(schema: schema, subjectGetter: { subject })
     }
 }

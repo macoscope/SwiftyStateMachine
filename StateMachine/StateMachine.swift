@@ -61,7 +61,7 @@ public struct StateMachineSchema<A, B, C>: StateMachineSchemaType {
 /// and the state after the transition.
 public final class StateMachine<T: StateMachineSchemaType> {
     /// The current state of the machine.
-    public var state: T.State
+    public private(set) var state: T.State
 
     /// An optional block called after a transition with three arguments:
     /// the state before the transition, the event causing the transition,

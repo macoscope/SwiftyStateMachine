@@ -1,5 +1,7 @@
 ## [0.3.0][] • work in progress
 
+- Updated to Swift 2.1 (Xcode 7.1).
+
 
 ## [0.2.0][] • 2015-06-06
 

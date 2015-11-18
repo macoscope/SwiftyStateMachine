@@ -12,7 +12,7 @@ for clarity and maintainability.  Can create diagrams:
 ![example digraph](example-digraph.png)
 
 - Version 0.3.0-work-in-progress (following [Semantic Versioning][])
-- Developed and tested under Swift 1.2 (Xcode 6.3)
+- Developed and tested under Swift 2.1 (Xcode 7.1)
 - Published under the [MIT License](LICENSE)
 - [Carthage][] compatible
 - [CocoaPods][] compatible
@@ -112,14 +112,14 @@ let schema = StateMachineSchema<Number, Operation, Void>(initialState: .One) { (
     switch state {
         case .One: switch event {
             case .Decrement: return nil
-            case .Increment: return (.Two, { _ in println("1 → 2") })
+            case .Increment: return (.Two, { _ in print("1 → 2") })
             // we used nil to ignore the event
             // and _ to ignore the subject
         }
 
         case .Two: switch event {
-            case .Decrement: return (.One, { _ in println("2 → 1") })
-            case .Increment: return (.Three, { _ in println("2 → 3") })
+            case .Decrement: return (.One, { _ in print("2 → 1") })
+            case .Increment: return (.Three, { _ in print("2 → 3") })
         }
 
         case .Three: switch event {
@@ -158,10 +158,10 @@ Now, let's create a machine based on the schema and test it:
 var machine = StateMachine(schema: schema, subject: ())
 
 machine.handleEvent(.Decrement)  // nothing happens
-if machine.state == .One { println("one") }  // prints "one"
+if machine.state == .One { print("one") }  // prints "one"
 
 machine.handleEvent(.Increment)  // prints "1 → 2"
-if machine.state == .Two { println("two") }  // prints "two"
+if machine.state == .Two { print("two") }  // prints "two"
 ```
 
 Cool.  We can also get notified about transitions by providing a
@@ -171,7 +171,7 @@ transition, and the state after the transition:
 
 ```swift
 machine.didTransitionCallback = { (oldState, event, newState) in
-    println("changed state!")
+    print("changed state!")
 }
 ```
 
@@ -243,7 +243,7 @@ print the diagram:
 
 ```swift
 let schema = GraphableStateMachineSchema// ...
-println(schema.DOTDigraph)
+print(schema.DOTDigraph)
 ```
 
 ```dot

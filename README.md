@@ -60,7 +60,12 @@ Installation
 ------------
 
 SwiftyStateMachine is a framework — you can build it and drag it to your
-project.  We recommend using [Carthage][Carthage add]:
+project.  We provide built frameworks for iOS and OS X in ZIP files on
+our [Releases](https://github.com/macoscope/SwiftyStateMachine/releases)
+page.
+
+If you want to automate the installation and future updates, we recommend
+using [Carthage][Carthage add]:
 
     # Cartfile
     github "macoscope/SwiftyStateMachine" == 0.3.0

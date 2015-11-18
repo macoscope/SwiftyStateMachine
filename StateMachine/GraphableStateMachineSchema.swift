@@ -3,13 +3,13 @@ import Foundation
 
 /// A type, preferably an `enum`, representing states or events in
 /// a State Machine.  Used by `GraphableStateMachineSchema` to create
-/// state machine graphs in the DOT graph description language [1].
+/// state machine graphs in the [DOT graph description language][DOT].
 ///
 /// Provides an array of items (states or events) used in a graph, and
 /// a textual representation of each item, used when assigning labels
 /// to graph elements.
 ///
-///   [1]: http://en.wikipedia.org/wiki/DOT_%28graph_description_language%29
+///   [DOT]: http://en.wikipedia.org/wiki/DOT_%28graph_description_language%29
 public protocol DOTLabelable {
 
     /// A textual representation of `self`, suitable for creating labels
@@ -21,8 +21,8 @@ public protocol DOTLabelable {
 }
 
 
-/// A state machine schema with a graph of the state machine in the DOT graph
-/// description language [1].
+/// A state machine schema with a graph of the state machine in the [DOT graph
+/// description language][DOT].
 ///
 /// Requires `State` and `Event` types to conform to the `DOTLabelable`
 /// protocol.
@@ -34,7 +34,7 @@ public protocol DOTLabelable {
 /// For more information about state machine schemas, see
 /// `StateMachineSchemaType` documentation.
 ///
-///   [1]: http://en.wikipedia.org/wiki/DOT_%28graph_description_language%29
+///   [DOT]: http://en.wikipedia.org/wiki/DOT_%28graph_description_language%29
 public struct GraphableStateMachineSchema<A: DOTLabelable, B: DOTLabelable, C>: StateMachineSchemaType {
     public typealias State = A
     public typealias Event = B
@@ -73,11 +73,11 @@ public struct GraphableStateMachineSchema<A: DOTLabelable, B: DOTLabelable, C>: 
     /// `MyProject/InboxViewController.swift` and pass `"Inbox.dot"` as
     /// a filepath, the diagram will be saved as `MyProject/Inbox.dot`.
     ///
-    /// Files in the DOT format [1] can be viewed in different applications,
-    /// e.g. Graphviz [2].
+    /// Files in the [DOT format][DOT] can be viewed in different applications,
+    /// e.g. [Graphviz][].
     ///
-    ///   [1]: https://developer.apple.com/library/mac/qa/qa1361/_index.html
-    ///   [2]: http://www.graphviz.org/
+    ///   [DOT]: http://en.wikipedia.org/wiki/DOT_%28graph_description_language%29
+    ///   [Graphviz]: http://www.graphviz.org/
     public func saveDOTDigraphIfRunningInSimulator(filepathRelativeToCurrentFile filepathRelativeToCurrentFile: String, file: String = __FILE__) {
         if TARGET_IPHONE_SIMULATOR == 1 {
             let filepath = ((file as NSString).stringByDeletingLastPathComponent as NSString).stringByAppendingPathComponent(filepathRelativeToCurrentFile)

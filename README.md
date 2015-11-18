@@ -253,7 +253,7 @@ we run the app in the simulator:
   [On iOS]: https://github.com/macoscope/SwiftyStateMachine/commit/9b4963c26a934915b56d5023f84e42ff128f6a1d
 
 ```swift
-schema.saveDOTDigraphIfRunningInSimulator(filepathRelativeToCurrentFile: "123.dot")
+try schema.saveDOTDigraphIfRunningInSimulator(filepathRelativeToCurrentFile: "123.dot")
 ```
 
 [DOT][] files can be viewed by a number of applications, including the free

@@ -158,6 +158,22 @@ class StateMachineSpec: QuickSpec {
                 expect(subject.machine.state) == SimpleState.S1
             }
 
+            it("doesn't cause machine-subject reference cycles") {
+                final class MachineOwner {
+                    var machine: StateMachine<StateMachineSchema<SimpleState, SimpleEvent, MachineOwner>>!
+
+                    init() {
+                        machine = StateMachine(
+                            schema: StateMachineSchema(initialState: .S1) { _ in nil },
+                            subject: self)
+                    }
+                }
+
+                weak var reference: MachineOwner?
+                do { reference = MachineOwner() }
+                expect(reference).to(beNil())
+            }
+
         }
 
         describe("Graphable State Machine") {

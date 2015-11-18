@@ -73,13 +73,13 @@ public final class StateMachine<T: StateMachineSchemaType> {
     private let schema: T
 
     /// Object associated with the state machine.  Can be accessed in
-    /// transition blocks.
-    private let subjectGetter: () -> T.Subject?
+    /// transition blocks.  Closure used to allow for weak references.
+    private let subject: () -> T.Subject?
 
-    private init(schema: T, subjectGetter: () -> T.Subject?) {
+    private init(schema: T, subject: () -> T.Subject?) {
         self.state = schema.initialState
         self.schema = schema
-        self.subjectGetter = subjectGetter
+        self.subject = subject
     }
 
     /// A method for triggering transitions and changing the state of the
@@ -87,25 +87,30 @@ public final class StateMachine<T: StateMachineSchemaType> {
     /// for current state and given event, the state is changed, the optional
     /// transition block is executed, and `didTransitionCallback` is called.
     public func handleEvent(event: T.Event) {
-        if let
-            subject = subjectGetter(),
-            (newState, transition) = schema.transitionLogic(state, event) {
-                let oldState = state
-                state = newState
-                transition?(subject)
-                didTransitionCallback?(oldState, event, newState)
+        guard let
+            subject = subject(),
+            (newState, transition) = schema.transitionLogic(state, event)
+        else {
+            return
         }
+
+        let oldState = state
+        state = newState
+
+        transition?(subject)
+        didTransitionCallback?(oldState, event, newState)
     }
 }
 
-extension StateMachine where T.Subject : AnyObject {
-    convenience init(schema: T, subject: T.Subject) {
-        self.init(schema: schema, subjectGetter: { [weak subject] in subject })
+
+public extension StateMachine where T.Subject: AnyObject {
+    public convenience init(schema: T, subject: T.Subject) {
+        self.init(schema: schema, subject: { [weak subject] in subject })
     }
 }
 
-extension StateMachine {
-    convenience init(schema: T, subject: T.Subject) {
-        self.init(schema: schema, subjectGetter: { subject })
+public extension StateMachine {
+    public convenience init(schema: T, subject: T.Subject) {
+        self.init(schema: schema, subject: { subject })
     }
 }

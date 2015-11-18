@@ -220,27 +220,6 @@ extension Operation: DOTLabelable {
 }
 ```
 
-Notice that the above code doesn't use a `switch` statement in the
-`DOTLabelableItems` implementation.  We won't get a compiler error after
-adding a new case to an `enum`.  To get some help from the compiler in
-such situations, we can use the following trick:
-
-```swift
-static var DOTLabelableItems: [Number] {
-    let items: [Number] = [.One, .Two, .Three]
-
-    // Trick: switch on all cases and get an error if you miss any.
-    // Copy and paste the following cases to the array above.
-    for item in items {
-        switch item {
-            case .One, .Two, .Three: break
-        }
-    }
-
-    return items
-}
-```
-
 When our types conform to `DOTLabelable`, we can define our structure as
 before, but this time using `GraphableStateMachineSchema`.  Then we can
 print the diagram:

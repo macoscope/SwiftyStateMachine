@@ -20,33 +20,13 @@ private enum Operation {
 
 extension Number: DOTLabelable {
     static var DOTLabelableItems: [Number] {
-        let items: [Number] = [.One, .Two, .Three]
-
-        // Trick: switch on all cases and get an error if you miss any.
-        // Copy and paste following cases to the array above.
-        for item in items {
-            switch item {
-                case .One, .Two, .Three: break
-            }
-        }
-
-        return items
+        return [.One, .Two, .Three]
     }
 }
 
 extension Operation: DOTLabelable {
     static var DOTLabelableItems: [Operation] {
-        let items: [Operation] = [.Increment, .Decrement]
-
-        // Trick: switch on all cases and get an error if you miss any.
-        // Copy and paste following cases to the array above.
-        for item in items {
-            switch item {
-                case .Increment, .Decrement: break
-            }
-        }
-
-        return items
+        return [.Increment, .Decrement]
     }
 }
 

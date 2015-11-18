@@ -13,6 +13,8 @@
   you can keep using them, but if the only thing you do is `case Foo: return
   "Foo"`, you can safely delete this code.
 
+- Renamed `StateMachine<T>` to `StateMachine<Schema>`.
+
 
 ## [0.2.0][] • 2015-06-06
 

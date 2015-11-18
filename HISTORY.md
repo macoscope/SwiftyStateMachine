@@ -1,3 +1,6 @@
+## [0.3.0][] • work in progress
+
+
 ## [0.2.0][] • 2015-06-06
 
 - #2: Changed `StateMachine` into a class (was a struct).
@@ -10,5 +13,6 @@
 Initial release.
 
 
+  [0.3.0]: https://github.com/macoscope/SwiftyStateMachine/compare/0.2.0...0.3.0
   [0.2.0]: https://github.com/macoscope/SwiftyStateMachine/compare/0.1.0...0.2.0
   [0.1.0]: https://github.com/macoscope/SwiftyStateMachine/compare/928b1d1...0.1.0

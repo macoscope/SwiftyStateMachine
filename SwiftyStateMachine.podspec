@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "SwiftyStateMachine"
-  s.version      = "0.2.0"
+  s.version      = "0.3.0"
   s.summary      = "A Swift µframework for creating finite-state machines, designed for clarity and maintainability."
   s.homepage     = "https://github.com/macoscope/SwiftyStateMachine"
   s.license      = "MIT"

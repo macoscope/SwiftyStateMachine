@@ -57,7 +57,7 @@ private class Subject {
     typealias SchemaType = StateMachineSchema<SimpleState, SimpleEvent, Subject>
 
     let schema: SchemaType
-    lazy var machine: StateMachine<SchemaType> = { [unowned self] in
+    lazy var machine: StateMachine<SchemaType> = { 
         StateMachine(schema: self.schema, subject: self)
     }()
 

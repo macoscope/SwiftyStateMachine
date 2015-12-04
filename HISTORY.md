@@ -1,6 +1,13 @@
 ## [0.3.0][] • work in progress
 
 - Updated to Swift 2.1 (Xcode 7.1).
+
+- Made references to class-based subjects weak.  This helps to remove
+  subject-machine reference cycles, but it also means you have to keep a
+  strong reference to a subject somewhere else (which you usually already do).
+  When subject references become `nil`, transitions are no longer performed.
+  Thanks to @bartekchlebek for work on this issue! :clap:
+
 - Added default `DOTLabel` implementation (`return "\(self)"`).  You don't
   have to change anything.  If you have custom `DOTLabel` implementations,
   you can keep using them, but if the only thing you do is `case Foo: return

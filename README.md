@@ -277,7 +277,14 @@ Enjoy improving your code by explicitly defining distinct states and
 transitions between them!  While you do so, please keep two things in
 mind:
 
-1) Remember that [Swift `enum`s][enums] can have associated values — you
+1) Your subjects are probably reference types (classes).  Storing a
+state machine as a property of a subject normally would create a reference
+cycle, so SwiftyStateMachine uses weak references for class-based subjects.
+This means you have to keep a strong reference to a subject somewhere else,
+but you usually already do this.  When subject references become `nil`,
+transitions are no longer performed.
+
+2) Remember that [Swift `enum`s][enums] can have associated values — you
 can pass additional information with events or store data in states.
 For example, if you had a game with a [heads-up display][HUD], you could
 do something like this:
@@ -295,22 +302,6 @@ machine.handleEvent(.TakeDamage(13.37))
 
   [enums]: https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Enumerations.html
   [HUD]: http://en.wikipedia.org/wiki/HUD_%28video_gaming%29
-
-
-2) If your subjects are reference types (classes), remember to use `unowned`
-to break reference cycles:
-
-```swift
-let schema = // ...
-
-class MyViewController: UIViewController {
-    lazy var stateMachine = { [unowned self] in
-       StateMachine(schema: schema, subject: self)
-    }()
-
-    // ...
-}
-```
 
 
 Development

@@ -51,6 +51,11 @@ public struct StateMachineSchema<A, B, C>: StateMachineSchemaType {
 /// `StateMachineSchemaType` documentation for more information about schemas
 /// and subjects.
 ///
+/// References to class-based subjects are weak.  This helps to remove 
+/// subject-machine reference cycles, but it also means you have to keep a
+/// strong reference to a subject somewhere else.  When subject references
+/// become `nil`, transitions are no longer performed.
+///
 /// The state machine provides the `state` property for inspecting the current
 /// state and the `handleEvent` method for triggering state transitions
 /// defined in the schema.
@@ -73,25 +78,49 @@ public final class StateMachine<T: StateMachineSchemaType> {
     private let schema: T
 
     /// Object associated with the state machine.  Can be accessed in
-    /// transition blocks.
-    private let subject: T.Subject
+    /// transition blocks.  Closure used to allow for weak references.
+    private let subject: () -> T.Subject?
 
-    public init(schema: T, subject: T.Subject) {
+    private init(schema: T, subject: () -> T.Subject?) {
         self.state = schema.initialState
         self.schema = schema
         self.subject = subject
     }
 
     /// A method for triggering transitions and changing the state of the
-    /// machine.  If the transition logic of the schema defines a transition
+    /// machine.  Transitions are not performed when a weak reference to the subject
+    /// becomes `nil`.  If the transition logic of the schema defines a transition
     /// for current state and given event, the state is changed, the optional
     /// transition block is executed, and `didTransitionCallback` is called.
     public func handleEvent(event: T.Event) {
-        if let (newState, transition) = schema.transitionLogic(state, event) {
-            let oldState = state
-            state = newState
-            transition?(subject)
-            didTransitionCallback?(oldState, event, newState)
+        guard let
+            subject = subject(),
+            (newState, transition) = schema.transitionLogic(state, event)
+        else {
+            return
         }
+
+        let oldState = state
+        state = newState
+
+        transition?(subject)
+        didTransitionCallback?(oldState, event, newState)
+    }
+}
+
+
+public extension StateMachine where T.Subject: AnyObject {
+    /// Creates a state machine with a weak reference to a subject.  This helps
+    /// to remove subject-machine reference cycles, but it also means you have 
+    /// to keep a strong reference to a subject somewhere else.  When subject 
+    /// reference becomes `nil`, transitions are no longer performed.
+    public convenience init(schema: T, subject: T.Subject) {
+        self.init(schema: schema, subject: { [weak subject] in subject })
+    }
+}
+
+public extension StateMachine {
+    public convenience init(schema: T, subject: T.Subject) {
+        self.init(schema: schema, subject: { subject })
     }
 }

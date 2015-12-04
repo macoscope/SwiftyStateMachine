@@ -57,7 +57,7 @@ private class Subject {
     typealias SchemaType = StateMachineSchema<SimpleState, SimpleEvent, Subject>
 
     let schema: SchemaType
-    lazy var machine: StateMachine<SchemaType> = { [unowned self] in
+    lazy var machine: StateMachine<SchemaType> = { 
         StateMachine(schema: self.schema, subject: self)
     }()
 
@@ -156,6 +156,22 @@ class StateMachineSpec: QuickSpec {
 
                 subject.machine.handleEvent(.E)
                 expect(subject.machine.state) == SimpleState.S1
+            }
+
+            it("doesn't cause machine-subject reference cycles") {
+                final class MachineOwner {
+                    var machine: StateMachine<StateMachineSchema<SimpleState, SimpleEvent, MachineOwner>>!
+
+                    init() {
+                        machine = StateMachine(
+                            schema: StateMachineSchema(initialState: .S1) { _ in nil },
+                            subject: self)
+                    }
+                }
+
+                weak var reference: MachineOwner?
+                do { reference = MachineOwner() }
+                expect(reference).to(beNil())
             }
 
         }

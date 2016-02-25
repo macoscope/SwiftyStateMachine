@@ -3,7 +3,7 @@ framework.  [Visit this link](https://github.com/macoscope/SwiftyStateMachine/tr
 to go back in time and view the latest released version.*
 
 
-SwiftyStateMachine
+SwiftyStateMachine [![codebeat badge](https://codebeat.co/badges/2180c3a3-30b6-48c3-a0e1-ea1f6af25f66)](https://codebeat.co/projects/github-com-macoscope-swiftystatemachine)
 ==================
 
 A Swift µframework for creating [finite-state machines][FSM], designed

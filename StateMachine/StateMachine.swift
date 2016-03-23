@@ -19,9 +19,9 @@
 /// transition.  The transition block is optional and it gets passed
 /// the `Subject` object as an argument.
 public protocol StateMachineSchemaType {
-    typealias State
-    typealias Event
-    typealias Subject
+    associatedtype State
+    associatedtype Event
+    associatedtype Subject
 
     var initialState: State { get }
     var transitionLogic: (State, Event) -> (State, (Subject -> ())?)? { get }

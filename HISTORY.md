@@ -1,6 +1,6 @@
 ## [0.3.0][] • work in progress
 
-- Updated to Swift 2.1 (Xcode 7.1).
+- Updated to Swift 2.2 (Xcode 7.3).
 
 - Made references to class-based subjects weak.  This helps to remove
   subject-machine reference cycles, but it also means you have to keep a

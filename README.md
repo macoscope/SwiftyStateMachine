@@ -1,8 +1,3 @@
-*This document describes an unreleased, work-in-progress version of the
-framework.  [Visit this link](https://github.com/macoscope/SwiftyStateMachine/tree/0.2.0#swiftystatemachine)
-to go back in time and view the latest released version.*
-
-
 SwiftyStateMachine
 ==================
 
@@ -11,7 +6,7 @@ for clarity and maintainability.  Can create diagrams:
 
 ![example digraph](example-digraph.png)
 
-- Version 0.3.0-work-in-progress (following [Semantic Versioning][])
+- Version 0.3.0 (following [Semantic Versioning][])
 - Developed and tested under Swift 2.2 (Xcode 7.3)
 - Published under the [MIT License](LICENSE)
 - [Carthage][] compatible

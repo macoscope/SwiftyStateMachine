@@ -1,4 +1,4 @@
-## [0.3.0][] • work in progress
+## [0.3.0][] • 2016-04-02
 
 - Updated to Swift 2.2 (Xcode 7.3).
 

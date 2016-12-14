@@ -47,10 +47,10 @@ public struct GraphableStateMachineSchema<A: DOTLabelable, B: DOTLabelable, C>: 
     public typealias Subject = C
 
     public let initialState: State
-    public let transitionLogic: (State, Event) -> (State, (Subject -> ())?)?
+    public let transitionLogic: (State, Event) -> (State, ((Subject) -> ())?)?
     public let DOTDigraph: String
 
-    public init(initialState: State, transitionLogic: (State, Event) -> (State, (Subject -> ())?)?) {
+    public init(initialState: State, transitionLogic: @escaping (State, Event) -> (State, ((Subject) -> ())?)?) {
         self.initialState = initialState
         self.transitionLogic = transitionLogic
         self.DOTDigraph = GraphableStateMachineSchema.DOTDigraphGivenInitialState(initialState, transitionLogic: transitionLogic)
@@ -84,24 +84,24 @@ public struct GraphableStateMachineSchema<A: DOTLabelable, B: DOTLabelable, C>: 
     ///
     ///   [DOT]: http://en.wikipedia.org/wiki/DOT_%28graph_description_language%29
     ///   [Graphviz]: http://www.graphviz.org/
-    public func saveDOTDigraphIfRunningInSimulator(filepathRelativeToCurrentFile filepathRelativeToCurrentFile: String, file: String = #file) throws {
+    public func saveDOTDigraphIfRunningInSimulator(filepathRelativeToCurrentFile: String, file: String = #file) throws {
         if TARGET_IPHONE_SIMULATOR == 1 {
-            let filepath = ((file as NSString).stringByDeletingLastPathComponent as NSString).stringByAppendingPathComponent(filepathRelativeToCurrentFile)
-            try DOTDigraph.writeToFile(filepath, atomically: true, encoding: NSUTF8StringEncoding)
+            let filepath = ((file as NSString).deletingLastPathComponent as NSString).appendingPathComponent(filepathRelativeToCurrentFile)
+            try DOTDigraph.write(toFile: filepath, atomically: true, encoding: String.Encoding.utf8)
         }
     }
     #endif
 
-    private static func DOTDigraphGivenInitialState(initialState: State, transitionLogic: (State, Event) -> (State, (Subject -> ())?)?) -> String {
+    fileprivate static func DOTDigraphGivenInitialState(_ initialState: State, transitionLogic: (State, Event) -> (State, ((Subject) -> ())?)?) -> String {
         let states = State.DOTLabelableItems
         let events = Event.DOTLabelableItems
 
         var stateIndexesByLabel: [String: Int] = [:]
-        for (i, state) in states.enumerate() {
+        for (i, state) in states.enumerated() {
             stateIndexesByLabel[label(state)] = i + 1
         }
 
-        func index(state: State) -> Int {
+        func index(_ state: State) -> Int {
             return stateIndexesByLabel[label(state)]!
         }
 
@@ -129,6 +129,6 @@ public struct GraphableStateMachineSchema<A: DOTLabelable, B: DOTLabelable, C>: 
 
 
 /// Helper function used when generating DOT digraph strings.
-private func label<T: DOTLabelable>(x: T) -> String {
-    return x.DOTLabel.stringByReplacingOccurrencesOfString("\"", withString: "\\\"", options: .LiteralSearch, range: nil)
+private func label<T: DOTLabelable>(_ x: T) -> String {
+    return x.DOTLabel.replacingOccurrences(of: "\"", with: "\\\"", options: .literal, range: nil)
 }

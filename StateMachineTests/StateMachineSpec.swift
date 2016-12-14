@@ -10,45 +10,45 @@ private struct NumberKeeper {
 
 
 private enum Number {
-    case One, Two, Three
+    case one, two, three
 }
 
 private enum Operation {
-    case Increment, Decrement
+    case increment, decrement
 }
 
 
 extension Number: DOTLabelable {
     static var DOTLabelableItems: [Number] {
-        return [.One, .Two, .Three]
+        return [.one, .two, .three]
     }
 }
 
 extension Operation: DOTLabelable {
     static var DOTLabelableItems: [Operation] {
-        return [.Increment, .Decrement]
+        return [.increment, .decrement]
     }
 }
 
 
-private enum SimpleState { case S1, S2 }
-private enum SimpleEvent { case E }
+private enum SimpleState { case s1, s2 }
+private enum SimpleEvent { case e }
 
-private func createSimpleSchema<T>(forward forward: (T -> ())? = nil, backward: (T -> ())? = nil) -> StateMachineSchema<SimpleState, SimpleEvent, T> {
-    return StateMachineSchema(initialState: .S1) { (state, event) in
+private func createSimpleSchema<T>(forward: ((T) -> ())? = nil, backward: ((T) -> ())? = nil) -> StateMachineSchema<SimpleState, SimpleEvent, T> {
+    return StateMachineSchema(initialState: .s1) { (state, event) in
         switch state {
-            case .S1: switch event {
-                case .E: return (.S2, { forward?($0) })
+            case .s1: switch event {
+                case .e: return (.s2, { forward?($0) })
             }
 
-            case .S2: switch event {
-                case .E: return (.S1, { backward?($0) })
+            case .s2: switch event {
+                case .e: return (.s1, { backward?($0) })
             }
         }
     }
 }
 
-private func createSimpleMachine(forward forward: (() -> ())? = nil, backward: (() -> ())? = nil) -> StateMachine<StateMachineSchema<SimpleState, SimpleEvent, Void>> {
+private func createSimpleMachine(forward: (() -> ())? = nil, backward: (() -> ())? = nil) -> StateMachine<StateMachineSchema<SimpleState, SimpleEvent, Void>> {
     return StateMachine(schema: createSimpleSchema(forward: { _ in forward?() }, backward: { _ in backward?() }), subject: ())
 }
 
@@ -77,8 +77,8 @@ class StateMachineSpec: QuickSpec {
                 keeper = NumberKeeper(n: 1)
 
                 let schema: StateMachineSchema<Number, Operation, NumberKeeper> = StateMachineSchema(initialState: .One) { (state, event) in
-                    let decrement: NumberKeeper -> () = { _ in keeper.n -= 1 }
-                    let increment: NumberKeeper -> () = { _ in keeper.n += 1 }
+                    let decrement: (NumberKeeper) -> () = { _ in keeper.n -= 1 }
+                    let increment: (NumberKeeper) -> () = { _ in keeper.n += 1 }
 
                     switch state {
                         case .One: switch event {
@@ -216,13 +216,13 @@ class StateMachineSpec: QuickSpec {
 
 
 enum State: DOTLabelable {
-    case S
+    case s
     var DOTLabel: String { return "An \"awesome\" state" }
-    static var DOTLabelableItems: [State] { return [.S] }
+    static var DOTLabelableItems: [State] { return [.s] }
 }
 
 enum Event: DOTLabelable {
-    case E
+    case e
     var DOTLabel: String { return "An \"awesome\" event" }
-    static var DOTLabelableItems: [Event] { return [.E] }
+    static var DOTLabelableItems: [Event] { return [.e] }
 }

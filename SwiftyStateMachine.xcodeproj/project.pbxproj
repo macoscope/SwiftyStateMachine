@@ -327,9 +327,11 @@
 					};
 					CBE36D081AC44BA000CFE10F = {
 						CreatedOnToolsVersion = 6.3;
+						LastSwiftMigration = 0830;
 					};
 					CBE36D121AC44BA000CFE10F = {
 						CreatedOnToolsVersion = 6.3;
+						LastSwiftMigration = 0830;
 					};
 				};
 			};
@@ -629,6 +631,7 @@
 				PRODUCT_NAME = SwiftyStateMachine;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -649,6 +652,7 @@
 				PRODUCT_NAME = SwiftyStateMachine;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -672,6 +676,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.macoscope.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SwiftyStateMachineTests;
 				SDKROOT = macosx;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -690,6 +695,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.macoscope.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SwiftyStateMachineTests;
 				SDKROOT = macosx;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

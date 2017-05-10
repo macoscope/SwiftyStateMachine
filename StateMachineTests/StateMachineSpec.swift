@@ -10,45 +10,45 @@ private struct NumberKeeper {
 
 
 private enum Number {
-    case One, Two, Three
+    case one, two, three
 }
 
 private enum Operation {
-    case Increment, Decrement
+    case increment, decrement
 }
 
 
 extension Number: DOTLabelable {
     static var DOTLabelableItems: [Number] {
-        return [.One, .Two, .Three]
+        return [.one, .two, .three]
     }
 }
 
 extension Operation: DOTLabelable {
     static var DOTLabelableItems: [Operation] {
-        return [.Increment, .Decrement]
+        return [.increment, .decrement]
     }
 }
 
 
-private enum SimpleState { case S1, S2 }
-private enum SimpleEvent { case E }
+private enum SimpleState { case s1, s2 }
+private enum SimpleEvent { case e }
 
-private func createSimpleSchema<T>(forward forward: (T -> ())? = nil, backward: (T -> ())? = nil) -> StateMachineSchema<SimpleState, SimpleEvent, T> {
-    return StateMachineSchema(initialState: .S1) { (state, event) in
+private func createSimpleSchema<T>(forward: ((T) -> ())? = nil, backward: ((T) -> ())? = nil) -> StateMachineSchema<SimpleState, SimpleEvent, T> {
+    return StateMachineSchema(initialState: .s1) { (state, event) in
         switch state {
-            case .S1: switch event {
-                case .E: return (.S2, { forward?($0) })
+            case .s1: switch event {
+                case .e: return (.s2, { forward?($0) })
             }
 
-            case .S2: switch event {
-                case .E: return (.S1, { backward?($0) })
+            case .s2: switch event {
+                case .e: return (.s1, { backward?($0) })
             }
         }
     }
 }
 
-private func createSimpleMachine(forward forward: (() -> ())? = nil, backward: (() -> ())? = nil) -> StateMachine<StateMachineSchema<SimpleState, SimpleEvent, Void>> {
+private func createSimpleMachine(forward: (() -> ())? = nil, backward: (() -> ())? = nil) -> StateMachine<StateMachineSchema<SimpleState, SimpleEvent, Void>> {
     return StateMachine(schema: createSimpleSchema(forward: { _ in forward?() }, backward: { _ in backward?() }), subject: ())
 }
 
@@ -75,25 +75,25 @@ class StateMachineSpec: QuickSpec {
 
             beforeEach {
                 keeper = NumberKeeper(n: 1)
-
-                let schema: StateMachineSchema<Number, Operation, NumberKeeper> = StateMachineSchema(initialState: .One) { (state, event) in
-                    let decrement: NumberKeeper -> () = { _ in keeper.n -= 1 }
-                    let increment: NumberKeeper -> () = { _ in keeper.n += 1 }
+                
+                let schema = StateMachineSchema<Number, Operation, NumberKeeper>(initialState: .one) { (state, event) in
+                    let decrement: (NumberKeeper) -> () = { _ in keeper.n -= 1 }
+                    let increment: (NumberKeeper) -> () = { _ in keeper.n += 1 }
 
                     switch state {
-                        case .One: switch event {
-                            case .Decrement: return nil
-                            case .Increment: return (.Two, increment)
+                        case .one: switch event {
+                            case .decrement: return nil
+                            case .increment: return (.two, increment)
                         }
 
-                        case .Two: switch event {
-                            case .Decrement: return (.One, decrement)
-                            case .Increment: return (.Three, increment)
+                        case .two: switch event {
+                            case .decrement: return (.one, decrement)
+                            case .increment: return (.three, increment)
                         }
 
-                        case .Three: switch event {
-                            case .Decrement: return (.Two, decrement)
-                            case .Increment: return nil
+                        case .three: switch event {
+                            case .decrement: return (.two, decrement)
+                            case .increment: return nil
                         }
                     }
                 }
@@ -103,28 +103,28 @@ class StateMachineSpec: QuickSpec {
 
             it("can be associated with a subject") {
                 expect(keeper.n) == 1
-                keeperMachine.handleEvent(.Increment)
+                keeperMachine.handleEvent(.increment)
                 expect(keeper.n) == 2
             }
 
             it("doesn't have to be associated with a subject") {
                 let machine = createSimpleMachine()
 
-                expect(machine.state) == SimpleState.S1
-                machine.handleEvent(.E)
-                expect(machine.state) == SimpleState.S2
+                expect(machine.state) == SimpleState.s1
+                machine.handleEvent(.e)
+                expect(machine.state) == SimpleState.s2
             }
 
             it("changes state on correct event") {
-                expect(keeperMachine.state) == Number.One
-                keeperMachine.handleEvent(.Increment)
-                expect(keeperMachine.state) == Number.Two
+                expect(keeperMachine.state) == Number.one
+                keeperMachine.handleEvent(.increment)
+                expect(keeperMachine.state) == Number.two
             }
 
             it("doesn't change state on ignored event") {
-                expect(keeperMachine.state) == Number.One
-                keeperMachine.handleEvent(.Decrement)
-                expect(keeperMachine.state) == Number.One
+                expect(keeperMachine.state) == Number.one
+                keeperMachine.handleEvent(.decrement)
+                expect(keeperMachine.state) == Number.one
             }
 
             it("executes transition block on transition") {
@@ -133,7 +133,7 @@ class StateMachineSpec: QuickSpec {
                 let machine = createSimpleMachine(forward: { didExecuteBlock = true })
                 expect(didExecuteBlock) == false
 
-                machine.handleEvent(.E)
+                machine.handleEvent(.e)
                 expect(didExecuteBlock) == true
             }
 
@@ -142,20 +142,20 @@ class StateMachineSpec: QuickSpec {
 
                 var callbackWasCalledCorrectly = false
                 machine.didTransitionCallback = { (oldState: SimpleState, event: SimpleEvent, newState: SimpleState) in
-                    callbackWasCalledCorrectly = oldState == .S1 && event == .E && newState == .S2
+                    callbackWasCalledCorrectly = oldState == .s1 && event == .e && newState == .s2
                 }
 
-                machine.handleEvent(.E)
+                machine.handleEvent(.e)
                 expect(callbackWasCalledCorrectly) == true
             }
 
             it("can trigger transition from within transition") {
                 let subject = Subject(schema: createSimpleSchema(forward: {
-                    $0.machine.handleEvent(.E)
+                    $0.machine.handleEvent(.e)
                 }))
 
-                subject.machine.handleEvent(.E)
-                expect(subject.machine.state) == SimpleState.S1
+                subject.machine.handleEvent(.e)
+                expect(subject.machine.state) == SimpleState.s1
             }
 
             it("doesn't cause machine-subject reference cycles") {
@@ -164,7 +164,7 @@ class StateMachineSpec: QuickSpec {
 
                     init() {
                         machine = StateMachine(
-                            schema: StateMachineSchema(initialState: .S1) { _ in nil },
+                            schema: StateMachineSchema(initialState: .s1) { _ in nil },
                             subject: self)
                     }
                 }
@@ -179,32 +179,32 @@ class StateMachineSpec: QuickSpec {
         describe("Graphable State Machine") {
 
             it("has representation in DOT format") {
-                let schema: GraphableStateMachineSchema<Number, Operation, Void> = GraphableStateMachineSchema(initialState: .One) { (state, event) in
+                let schema: GraphableStateMachineSchema<Number, Operation, Void> = GraphableStateMachineSchema(initialState: .one) { (state, event) in
                     switch state {
-                        case .One: switch event {
-                            case .Decrement: return nil
-                            case .Increment: return (.Two, nil)
+                        case .one: switch event {
+                            case .decrement: return nil
+                            case .increment: return (.two, nil)
                         }
 
-                        case .Two: switch event {
-                            case .Decrement: return (.One, nil)
-                            case .Increment: return (.Three, nil)
+                        case .two: switch event {
+                            case .decrement: return (.one, nil)
+                            case .increment: return (.three, nil)
                         }
 
-                        case .Three: switch event {
-                            case .Decrement: return (.Two, nil)
-                            case .Increment: return nil
+                        case .three: switch event {
+                            case .decrement: return (.two, nil)
+                            case .increment: return nil
                         }
                     }
                 }
 
-                expect(schema.DOTDigraph) == "digraph {\n    graph [rankdir=LR]\n\n    0 [label=\"\", shape=plaintext]\n    0 -> 1 [label=\"START\"]\n\n    1 [label=\"One\"]\n    2 [label=\"Two\"]\n    3 [label=\"Three\"]\n\n    1 -> 2 [label=\"Increment\"]\n    2 -> 3 [label=\"Increment\"]\n    2 -> 1 [label=\"Decrement\"]\n    3 -> 2 [label=\"Decrement\"]\n}"
+                expect(schema.DOTDigraph) == "digraph {\n    graph [rankdir=LR]\n\n    0 [label=\"\", shape=plaintext]\n    0 -> 1 [label=\"START\"]\n\n    1 [label=\"one\"]\n    2 [label=\"two\"]\n    3 [label=\"three\"]\n\n    1 -> 2 [label=\"increment\"]\n    2 -> 3 [label=\"increment\"]\n    2 -> 1 [label=\"decrement\"]\n    3 -> 2 [label=\"decrement\"]\n}"
             }
 
             it("escapes double quotes in labels") {
 
-                let schema = GraphableStateMachineSchema<State, Event, Void>(initialState: .S) { _ in
-                    (.S, nil)
+                let schema = GraphableStateMachineSchema<State, Event, Void>(initialState: .s) { _ in
+                    (.s, nil)
                 }
 
                 expect(schema.DOTDigraph) == "digraph {\n    graph [rankdir=LR]\n\n    0 [label=\"\", shape=plaintext]\n    0 -> 1 [label=\"START\"]\n\n    1 [label=\"An \\\"awesome\\\" state\"]\n\n    1 -> 1 [label=\"An \\\"awesome\\\" event\"]\n}"
@@ -216,13 +216,13 @@ class StateMachineSpec: QuickSpec {
 
 
 enum State: DOTLabelable {
-    case S
+    case s
     var DOTLabel: String { return "An \"awesome\" state" }
-    static var DOTLabelableItems: [State] { return [.S] }
+    static var DOTLabelableItems: [State] { return [.s] }
 }
 
 enum Event: DOTLabelable {
-    case E
+    case e
     var DOTLabel: String { return "An \"awesome\" event" }
-    static var DOTLabelableItems: [Event] { return [.E] }
+    static var DOTLabelableItems: [Event] { return [.e] }
 }

@@ -24,23 +24,24 @@ public protocol StateMachineSchemaType {
     associatedtype Subject
 
     var initialState: State { get }
-    var transitionLogic: (State, Event) -> (State, (Subject -> ())?)? { get }
+    var transitionLogic: (State, Event) -> (State, ((Subject) -> ())?)? { get }
 
-    init(initialState: State, transitionLogic: (State, Event) -> (State, (Subject -> ())?)?)
+    init(initialState: State, transitionLogic: @escaping (State, Event) -> (State, ((Subject) -> ())?)?)
 }
 
 
 /// A state machine schema conforming to the `StateMachineSchemaType`
 /// protocol.  See protocol documentation for more information.
 public struct StateMachineSchema<A, B, C>: StateMachineSchemaType {
+
     public typealias State = A
     public typealias Event = B
     public typealias Subject = C
 
     public let initialState: State
-    public let transitionLogic: (State, Event) -> (State, (Subject -> ())?)?
+    public let transitionLogic: (State, Event) -> (State, ((Subject) -> ())?)?
 
-    public init(initialState: State, transitionLogic: (State, Event) -> (State, (Subject -> ())?)?) {
+    public init(initialState: State, transitionLogic: @escaping (State, Event) -> (State, ((Subject) -> ())?)?) {
         self.initialState = initialState
         self.transitionLogic = transitionLogic
     }
@@ -66,7 +67,7 @@ public struct StateMachineSchema<A, B, C>: StateMachineSchemaType {
 /// and the state after the transition.
 public final class StateMachine<Schema: StateMachineSchemaType> {
     /// The current state of the machine.
-    public private(set) var state: Schema.State
+    public fileprivate(set) var state: Schema.State
 
     /// An optional block called after a transition with three arguments:
     /// the state before the transition, the event causing the transition,
@@ -75,13 +76,13 @@ public final class StateMachine<Schema: StateMachineSchemaType> {
 
     /// The schema of the state machine.  See `StateMachineSchemaType`
     /// documentation for more information.
-    private let schema: Schema
+    fileprivate let schema: Schema
 
     /// Object associated with the state machine.  Can be accessed in
     /// transition blocks.  Closure used to allow for weak references.
-    private let subject: () -> Schema.Subject?
+    fileprivate let subject: () -> Schema.Subject?
 
-    private init(schema: Schema, subject: () -> Schema.Subject?) {
+    fileprivate init(schema: Schema, subject: @escaping () -> Schema.Subject?) {
         self.state = schema.initialState
         self.schema = schema
         self.subject = subject
@@ -92,10 +93,10 @@ public final class StateMachine<Schema: StateMachineSchemaType> {
     /// becomes `nil`.  If the transition logic of the schema defines a transition
     /// for current state and given event, the state is changed, the optional
     /// transition block is executed, and `didTransitionCallback` is called.
-    public func handleEvent(event: Schema.Event) {
+    public func handleEvent(_ event: Schema.Event) {
         guard let
             subject = subject(),
-            (newState, transition) = schema.transitionLogic(state, event)
+            let (newState, transition) = schema.transitionLogic(state, event)
         else {
             return
         }
